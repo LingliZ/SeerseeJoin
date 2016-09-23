@@ -1,0 +1,1 @@
+../../../ShareManager/ShareManager/lib/Utils/NSString+util.h

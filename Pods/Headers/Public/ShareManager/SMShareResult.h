@@ -1,0 +1,1 @@
+../../../ShareManager/ShareManager/Core/SMShareResult.h

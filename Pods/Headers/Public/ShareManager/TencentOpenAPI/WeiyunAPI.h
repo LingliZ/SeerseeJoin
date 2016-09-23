@@ -1,0 +1,1 @@
+../../../../ShareManager/ShareManager/lib/TencentQQ/TencentOpenAPI.framework/Headers/WeiyunAPI.h
