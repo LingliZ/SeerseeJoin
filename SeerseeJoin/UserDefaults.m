@@ -17,9 +17,15 @@ static NSString *kLoginName = @"loginName";
 static NSString *kLoginPassword = @"loginPassword";
 static NSString *kNickname = @"nickname";
 static NSString *kWatchPassword = @"watchPassword";
-static NSString *kOrganizerToken = @"organizerToken";
+
 static NSString *kseerseeliveId = @"seerseeliveId";
 static NSString *kuserId = @"0";
+static NSString *kOrganizerToken = @"888888";
+static NSString *kpanelistToken = @"666666";
+static NSString *kVodPassword = @"vodPassword";
+static NSString *kNumber = @"number";
+static NSString *kHeadimg = @"";
+
 @implementation UserDefaults
 
 + (BOOL)save
@@ -107,10 +113,10 @@ static NSString *kuserId = @"0";
     return [[NSUserDefaults standardUserDefaults]objectForKey:kWatchPassword];
 }
 
-+ (NSString*)organizerToken
-{
-    return [[NSUserDefaults standardUserDefaults]objectForKey:kWatchPassword];
-}
+//+ (NSString*)organizerToken
+//{
+//    return [[NSUserDefaults standardUserDefaults]objectForKey:kWatchPassword];
+//}
 
 + (NSString*)seerseeliveId
 {
@@ -129,5 +135,60 @@ static NSString *kuserId = @"0";
 + (NSString*)userId
 {
     return [[NSUserDefaults standardUserDefaults]objectForKey:kuserId];
+}
+
+//10-20
++ (void)setOrganizerToken:(NSString *)organizerToken
+{
+    [[NSUserDefaults standardUserDefaults]setObject:organizerToken forKey:kOrganizerToken];
+}
+
++ (NSString*)organizerToken
+{
+    return [[NSUserDefaults standardUserDefaults]objectForKey:kOrganizerToken];
+}
+
+
++ (void)setPanelistToken:(NSString *)panelistToken
+{
+    [[NSUserDefaults standardUserDefaults]setObject:panelistToken forKey:kpanelistToken];
+}
+
++ (NSString*)panelistToken
+{
+    return [[NSUserDefaults standardUserDefaults]objectForKey:kpanelistToken];
+}
+
+
+//10-24
+
++ (NSString *)getNumber
+{
+    return [[NSUserDefaults standardUserDefaults]objectForKey:kNumber];
+}
+
++ (void)setNumber:(NSString*)roomNumber
+{
+    [[NSUserDefaults standardUserDefaults]setObject:roomNumber forKey:kNumber];
+}
+
++ (NSString *)getVodPassword
+{
+    return [[NSUserDefaults standardUserDefaults]objectForKey:kVodPassword];
+}
+
++ (void)setVodPassword:(NSString *)vodPassword
+{
+    [[NSUserDefaults standardUserDefaults]setObject:vodPassword forKey:kVodPassword];
+}
+
++ (NSString *)getHeadimg
+{
+    return [[NSUserDefaults standardUserDefaults]objectForKey:kHeadimg];
+}
+
++ (void)setHeadimg:(NSString *)headimg
+{
+    [[NSUserDefaults standardUserDefaults]setObject:headimg forKey:kHeadimg];
 }
 @end

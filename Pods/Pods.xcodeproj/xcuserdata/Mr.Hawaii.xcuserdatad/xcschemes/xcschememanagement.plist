@@ -14,7 +14,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>KeyboardToolBar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>NSString+Color.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -42,7 +52,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>635C029B84DD9E88569100E2745A20D8</key>
+		<key>0CC0E245198444D86451F94947680C6E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>15081F9F357363817FB9C9A5BA3F9122</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>55F2ACFD119CB4BBD8C65907FBF3C5D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>69D44D8B80C7BF58B51F10A65242AEAD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -53,11 +78,6 @@
 			<true/>
 		</dict>
 		<key>928353533005A4198EBDA5B700D37B64</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C70D4F9367CFF7F1D9BCC0CDCE9A992B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

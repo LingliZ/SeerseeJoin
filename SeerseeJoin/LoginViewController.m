@@ -13,6 +13,7 @@
 #import "ListViewController.h"
 #import "CourseTableViewController.h"
 #import "MemberCenterViewController.h"
+#import <NSString+Color.h>
 
 @interface LoginViewController ()<UITextFieldDelegate>
 
@@ -41,21 +42,7 @@
     // Do any additional setup after loading the view.
     
     NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
-    //判断是否已经登陆
-    if([UserDefaults loginName].length>0&&[UserDefaults domain].length>0&&[UserDefaults loginPassword].length>0){
-//        UINavigationController *aww =self.navigationController;
-//        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//        
-//        CourseTableViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseTableViewController"];
-//        controller.parameter = self.parameter;
-//        controller.domain = [UserDefaults domain];
-//        controller.loginName = [UserDefaults loginName];
-//        controller.loginPassword = [UserDefaults loginPassword];
-//        controller.nickName = [UserDefaults nickname];
-//        
-//        [self.navigationController pushViewController:controller animated:YES];
-//        return;
-    }
+    
     
     [self.btnLogin.layer setMasksToBounds:YES];
     [self.btnLogin.layer setCornerRadius:5.0];
@@ -69,26 +56,34 @@
     [self addNotifications];
     [self initnav];
     
+    
+//    //判断是否已经登陆
+//    if([UserDefaults loginName].length>0&&[UserDefaults domain].length>0&&[UserDefaults loginPassword].length>0){
+//        NSString *courseid=[self.parameter objectForKey:@"from"];
+//        
+//        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//        CourseTableViewController *controller = [board instantiateViewControllerWithIdentifier:courseid];
+//        
+//        controller.parameter = self.parameter;
+//        controller.domain = [UserDefaults domain];
+//        controller.loginName = [UserDefaults loginName];
+//        controller.loginPassword = [UserDefaults loginPassword];
+//        controller.nickName = [UserDefaults nickname];
+//        
+//        [self.navigationController pushViewController:controller animated:YES];
+//        return;
+//    }
 }
 
 -(void)initnav{
-    //    UIBarButtonItem *baright=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoMemberCenter)];
-    //
-    //    self.navigationItem.rightBarButtonItem=baright;
-    
-
-    
-    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-    [leftButton setTitle:@"▲" forState:UIControlStateNormal];
+    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,25,25)];
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(gotoPop) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-
     UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem= leftItem;
-    //[UIBarButtonItem appearance]
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor blueColor]];
+    self.title = nil;
+    [self.navigationController.navigationBar setBarTintColor:[@"#00CAFC" representedColor]];
 }
 -(void)gotoMemberCenter{
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
@@ -99,25 +94,12 @@
     [self.navigationController popViewControllerAnimated:true];
 }
 
-//-(void)gotoCourseTableViewController{
-//    NSString *para =[self.parameter objectForKey:@"from"];
-//    if([para isEqualToString:@"gotoHY"] ){
-//        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//        CourseTableViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseTableViewController"];
-//        controller.parameter = self.parameter;
-//        [self.navigationController pushViewController:controller animated:YES];
-//    }else if([para isEqualToString:@"gotoPX"]){
-//        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//        CourseTableViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseTableViewController"];
-//        controller.parameter = self.parameter;
-//        [self.navigationController pushViewController:controller animated:YES];
-//    }
-//}
-
 - (void)viewWillAppear:(BOOL)animated {
     //接收到的参数
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"from"]);
     [super viewWillAppear:animated];
+    
+
 }
 - (void)viewWillDisappear:(BOOL)animated {
     
@@ -203,6 +185,7 @@
                  [UserDefaults setLoginPassword:self.password.text];
                  [UserDefaults setNickname:[[responseObject objectForKey:@"user"] objectForKey:@"nickname"]];
                  [UserDefaults setUserId:[[responseObject objectForKey:@"user"] objectForKey:@"id"]];
+                 [UserDefaults setHeadimg:[[responseObject objectForKey:@"user"] objectForKey:@"headimg"]];
                  [UserDefaults save];
                  //                 UIStoryboard *board = [UIStoryboard storyboardWithName:@"Seersee" bundle:[NSBundle mainBundle]];
                  //                 ChoiceCenterController *controller = [board instantiateViewControllerWithIdentifier:@"ChoiceCenterController"];

@@ -33,6 +33,7 @@
     //[self initnav];
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"from"]);
     [super viewWillAppear:animated];
+    self.title = @"上课";
 }
 - (void)viewWillDisappear:(BOOL)animated {
     
@@ -114,14 +115,15 @@
         NSURL *imageUrl = [NSURL URLWithString:url];
         cell.imagePhoto.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
         
-        cell.btnEdit.tag=rid;
+        //cell.btnEdit.tag=rid;
         [cell.btnEdit addTarget:self action:@selector(handEdit:) forControlEvents:UIControlEventTouchUpInside];
     }
     return cell;
 }
 
 -(void)handEdit:(UIButton*)btn{
-    NSLog(@"%@",btn.tag);
+    //NSLog(@"%@",btn.tag);
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

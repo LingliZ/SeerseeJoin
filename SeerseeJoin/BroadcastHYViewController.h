@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseItemViewController.h"
 @interface BroadcastHYViewController : BaseItemViewController
+@property (strong,nonatomic) NSMutableDictionary* parameter;
 @property (strong, nonatomic)NSString *domain;
 
 @property (strong, nonatomic)NSString *serviceType;

@@ -9,4 +9,6 @@ target 'SeerseeJoin' do
   # Pods for SeerseeJoin
   pod 'AFNetworking', '~> 3.0'
   pod 'ShareManager', '~> 0.4.0'
+  pod 'NSString+Color', '~> 1.1.4'
+  pod 'KeyboardToolBar', '~> 2.0.1'
 end

@@ -10,11 +10,17 @@
 #import "UserDefaults.h"
 #import "CourseTableViewController.h"
 #import "ChoiceCenterViewController.h"
+#import "RecordingPlayViewController.h"
+#import <NSString+Color.h>
 @interface MemberCenterViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *btnLoginOut;
-
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
+@property (weak, nonatomic) IBOutlet UIImageView *imageviewHeadimg;
 
+@property (weak, nonatomic) IBOutlet UIView *v1;
+@property (weak, nonatomic) IBOutlet UIView *v2;
+@property (weak, nonatomic) IBOutlet UIView *v3;
+@property (weak, nonatomic) IBOutlet UIView *v4;
 @end
 
 @implementation MemberCenterViewController
@@ -24,6 +30,44 @@
     // Do any additional setup after loading the view.
     NSString *name =[UserDefaults nickname];
     self.labelName.text = name;
+    
+    NSURL *imageUrl = [NSURL URLWithString:[UserDefaults getHeadimg]];
+    self.imageviewHeadimg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
+    
+    self.v1.layer.borderWidth =1;
+    self.v1.layer.borderColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.5].CGColor;
+    
+    self.v2.layer.borderWidth =1;
+    self.v2.layer.borderColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.5].CGColor;
+    
+    self.v3.layer.borderWidth =1;
+    self.v3.layer.borderColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.5].CGColor;
+    
+    self.v4.layer.borderWidth =1;
+    self.v4.layer.borderColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.5].CGColor;
+    [self initnav];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.title = @"我的";
+}
+
+-(void)initnav{
+    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,25,25)];
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"home.png"] forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(gotoPop) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+    self.navigationItem.leftBarButtonItem= leftItem;
+    
+    self.title = nil;
+    [self.navigationController.navigationBar setBarTintColor:[@"#00CAFC" representedColor]];
+    [self.btnLoginOut setBackgroundColor:[@"#00d4ff" representedColor]];
+}
+
+-(void)gotoPop{
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -32,7 +76,7 @@
 }
 
 - (IBAction)gotoClass:(UIButton *)sender {
-    CourseTableViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"CourseTableViewController"];
+    CourseTableViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"CourseTablePXViewController"];
     
     [self presentViewController:controller animated: YES completion:nil];
     
@@ -61,6 +105,13 @@
 
     }
 }
+- (IBAction)gotoRecording:(UIButton *)sender {
+    UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    RecordingPlayViewController *controller = [board instantiateViewControllerWithIdentifier:@"RecordingTableViewController"];
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+
 /*
 #pragma mark - Navigation
 

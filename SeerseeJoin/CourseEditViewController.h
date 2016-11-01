@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CourseEditViewController : UIViewController
-
+@property (strong,nonatomic) NSString *cid;
 @end

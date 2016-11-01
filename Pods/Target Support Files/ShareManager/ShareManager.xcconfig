@@ -1,7 +1,7 @@
 CONFIGURATION_BUILD_DIR = $PODS_CONFIGURATION_BUILD_DIR/ShareManager
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/ShareManager/ShareManager/lib/TencentQQ"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/ShareManager" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/BlocksKit" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/OAuthConsumer" "${PODS_ROOT}/Headers/Public/ShareManager"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/ShareManager" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/AFNetworking" "${PODS_ROOT}/Headers/Public/BlocksKit" "${PODS_ROOT}/Headers/Public/KeyboardToolBar" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/NSString+Color" "${PODS_ROOT}/Headers/Public/OAuthConsumer" "${PODS_ROOT}/Headers/Public/ShareManager"
 LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/ShareManager/ShareManager/lib/WeChatSDK" "$PODS_CONFIGURATION_BUILD_DIR/BlocksKit" "$PODS_CONFIGURATION_BUILD_DIR/MBProgressHUD" "$PODS_CONFIGURATION_BUILD_DIR/OAuthConsumer"
 OTHER_LDFLAGS = -l"WeChatSDK" -l"c++" -l"sqlite3.0" -l"z" -framework "CoreTelephony" -framework "SystemConfiguration" -framework "TencentOpenAPI"
 PODS_BUILD_DIR = $BUILD_DIR

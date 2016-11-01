@@ -42,4 +42,24 @@
 
 + (void)setUserId:(NSString*)userId;
 + (NSString*)userId;
+
+//10-20
++ (void)setOrganizerToken:(NSString*)organizerToken;
++ (NSString*)organizerToken;
+
++ (void)setPanelistToken:(NSString*)panelistToken;
++ (NSString*)panelistToken;
+
+//10-24
++ (NSString *)getNumber;
+
++ (void)setNumber:(NSString*)roomNumber;
+
++ (NSString *)getVodPassword;
+
++ (void)setVodPassword:(NSString *)vodPassword;
+
++ (NSString *)getHeadimg;
+
++ (void)setHeadimg:(NSString *)headimg;
 @end

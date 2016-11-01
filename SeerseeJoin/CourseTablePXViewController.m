@@ -12,9 +12,14 @@
 #import "BaseItemViewController.h"
 #import "UserDefaults.h"
 #import "MemberCenterViewController.h"
+#import <NSString+Color.h>
+#import "CourseEditViewController.h"
+#import "ShareManager.h"
 @interface CourseTablePXViewController ()
 
 @property (strong, nonatomic)NSArray *nsmres;
+@property (strong, nonatomic) IBOutlet UITableView *pxtable;
+
 @end
 
 @implementation CourseTablePXViewController
@@ -27,30 +32,50 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    [self loadData];
 }
 - (void)viewWillAppear:(BOOL)animated {
     //[self initnav];
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"from"]);
     [super viewWillAppear:animated];
+    
+    self.title = @"上课";
+    [self inittoolbar];
+    [self loadData];
 }
 - (void)viewWillDisappear:(BOOL)animated {
     
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"from"]);
     [super viewWillDisappear:animated];
+    [self.navigationController  setToolbarHidden:YES animated:YES];
+}
+
+-(void)inittoolbar{
+    [self.navigationController  setToolbarHidden:NO animated:YES];
+    UIBarButtonItem *flexiableItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIBarButtonItem *title = [[UIBarButtonItem alloc]initWithTitle:@"添加课程" style:UIBarButtonItemStylePlain target:self action:@selector(addCourse)];
+    
+    NSArray *items = [NSArray arrayWithObjects:flexiableItem,title, flexiableItem, nil];
+    
+    self.toolbarItems = items;
+    //self.toolbarItems.
+    
+    
+}
+
+-(void)addCourse{
+    UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    UIViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseAddViewController"];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 -(void)initnav{
-    //    UIBarButtonItem *baright=[[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"profile.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoMemberCenter)];
-    //
-    //    self.navigationItem.rightBarButtonItem=baright;
-    
     UIButton *rightButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
     [rightButton setImage:[UIImage imageNamed:@"profile.png"]forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(gotoMemberCenter) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
-    [leftButton setTitle:@"▲" forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"home.png"]forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(gotoPop) forControlEvents:UIControlEventTouchUpInside];
     
     
@@ -58,9 +83,17 @@
     UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
     self.navigationItem.rightBarButtonItem= rightItem;
     self.navigationItem.leftBarButtonItem= leftItem;
-    //[UIBarButtonItem appearance]
     
-    [self.navigationController.navigationBar setBarTintColor:[UIColor blueColor]];
+    //标题
+    if([[self.parameter objectForKey:@"from"] isEqualToString:@"CourseTableHYViewController"])
+    {
+        [self.navigationItem setTitle:@"会议"];
+    }
+    if([[self.parameter objectForKey:@"from"] isEqualToString:@"CourseTablePXViewController"])
+    {
+        [self.navigationItem setTitle:@"上课"];
+    }
+    [self.navigationController.navigationBar setBarTintColor:[@"#00a2ff" representedColor]];
 }
 -(void)gotoMemberCenter{
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
@@ -82,7 +115,7 @@
     }
          success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
              _nsmres = responseObject;
-             [self.tableView reloadData];
+             [self.pxtable reloadData];
          }
      
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
@@ -98,7 +131,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //#warning Incomplete implementation, return the number of rows
+    NSInteger *a = self.nsmres.count;
     return self.nsmres.count;
+    //return 2;
 }
 
 
@@ -114,22 +149,82 @@
         NSURL *imageUrl = [NSURL URLWithString:url];
         cell.imagePhoto.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
         
-        cell.btnEdit.tag=rid;
+        cell.btnEdit.tag=indexPath.row;
         [cell.btnEdit addTarget:self action:@selector(handEdit:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.btnShare.tag = indexPath.row;
+        [cell.btnShare addTarget:self action:@selector(handShare:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.btnAssistant.tag = indexPath.row;
+        [cell.btnAssistant addTarget:self action:@selector(handAssistant:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.btnTeacher.tag = indexPath.row;
+        [cell.btnTeacher addTarget:self action:@selector(handTeacher:) forControlEvents:UIControlEventTouchUpInside];
+        
+        int status =[[info objectForKey:@"status"] intValue];
+        switch (status) {
+            case -1:
+                cell.labelStatus.text = @"已删除";
+                cell.labelStatus.backgroundColor = [UIColor redColor];
+                break;
+            case 0:
+                cell.labelStatus.text = @"未开始";
+                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.4];
+                break;
+            case 1:
+                cell.labelStatus.text = @"直播中";
+                cell.labelStatus.backgroundColor = [UIColor redColor];
+                break;
+            case 2:
+                cell.labelStatus.text = @"暂停";
+                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.4];
+                break;
+            case 3:
+                cell.labelStatus.text = @"已结束";
+                cell.labelStatus.backgroundColor = [UIColor whiteColor];
+                break;
+            default:
+                break;
+        }
     }
     return cell;
 }
 
--(void)handEdit:(UIButton*)btn{
-    NSLog(@"%@",btn.tag);
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)handEdit:(UIButton*)btn{
+    //NSLog(@"%@",btn.tag);
+    NSDictionary *info = self.nsmres[btn.tag];
+    NSString *rid =[info objectForKey:@"id"];
+    
+    UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    CourseEditViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseEditViewController"];
+    controller.cid = rid;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
+-(void)handShare:(UIButton*)btn{
+    NSString *sTitle = @"无界互联"; //Only support QQ and Weixin
+    NSString *sDesc = @"无界互联正在直播中";
+    //NSString *sUrl = @"http://wujie.woojoin.com/10007.html";
+    NSString *sid = [UserDefaults seerseeliveId];
+    NSString *sUrl  = [NSString stringWithFormat:@"%@%@%@", @"http://wujie.woojoin.com/",sid,@".html"];
+    
+    UIImage *image=[UIImage imageNamed:@"ic_launcher.png"];
+    SMImage *sImage = [[SMImage alloc] initWithImage:image];
+    [[ShareManager sharedManager] setContentWithTitle:sTitle description:sDesc image:sImage url:sUrl];
+    [[ShareManager sharedManager] showShareWindow];
+}
+
+-(void)handAssistant:(UIButton*)btn
 {
     //上次的房间号
     //NSString *rid = @"10002";
     //NSString *rid =@"10074";
-    NSDictionary *info = self.nsmres[indexPath.row];
+    NSDictionary *info = self.nsmres[btn.tag];
     NSString *rid =[info objectForKey:@"id"];
     NSString *title =[info objectForKey:@"title"];
     if(rid.length>0)
@@ -142,18 +237,62 @@
         }
              success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                  NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
+                 NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
                  NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
                  
-                 //                 UIStoryboard *board = [UIStoryboard storyboardWithName:@"Seersee" bundle:[NSBundle mainBundle]];
-                 //BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastViewController"];
-//                 NSString *para = [self.parameter objectForKey:@"from"];
-//                 NSString *identifier;
-//                 if([para isEqualToString:@"gotoHY"])
-//                 {
-//                     identifier =@"BroadcastHYViewController";
-//                 }else if([para isEqualToString:@"gotoPX"]){
-//                     identifier =@"BroadcastPXViewController";
-//                 }
+                 UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                 BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastPXViewController"];
+                 
+                 GSConnectInfo *connectInfo = [GSConnectInfo new];
+                 
+                 connectInfo.domain = @"service.seersee.com";
+                 connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
+                 connectInfo.loginName = @"admin@seersee.com";
+                 connectInfo.loginPassword = @"tgc0428seersee";
+                 connectInfo.roomNumber = roomNumber;
+                 connectInfo.nickName = self.loginName;
+                 connectInfo.watchPassword = panelistToken;
+                 connectInfo.thirdToken = self.token;
+                 connectInfo.oldVersion = YES;
+                 
+                 [UserDefaults setRoomNumber:self.roomNumber];
+                 [UserDefaults setSeerseeliveId:rid];
+                 [UserDefaults setOrganizerToken:organizerToken];
+                 [UserDefaults setPanelistToken:panelistToken];
+                 [UserDefaults save];
+                 controller.connectInfo = connectInfo;
+                 
+                 [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
+                 controller.parameter = self.parameter;
+                 
+                 [self presentViewController:controller animated: YES completion:nil];
+             }
+         
+             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+                 NSLog(@"%@",error);  //这里打印错误信息
+                 
+             }];
+    }
+}
+
+-(void)handTeacher:(UIButton*)btn
+{
+    //上次的房间号
+    NSDictionary *info = self.nsmres[btn.tag];
+    NSString *rid =[info objectForKey:@"id"];
+    NSString *title =[info objectForKey:@"title"];
+    if(rid.length>0)
+    {
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
+        NSDictionary *param = @{@"id":rid};
+        [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+        }
+             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                 NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
+                 NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
+                 NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
                  
                  UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
                  BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastPXViewController"];
@@ -172,8 +311,14 @@
                  
                  [UserDefaults setRoomNumber:self.roomNumber];
                  [UserDefaults setSeerseeliveId:rid];
+                 [UserDefaults setOrganizerToken:organizerToken];
+                 [UserDefaults setPanelistToken:panelistToken];
                  [UserDefaults save];
                  controller.connectInfo = connectInfo;
+                 
+                 [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
+                 controller.parameter = self.parameter;
+                 
                  [self presentViewController:controller animated: YES completion:nil];
              }
          
@@ -182,8 +327,9 @@
                  
              }];
     }
-    
 }
+
+
 
 
 

@@ -11,7 +11,7 @@
 
 
 @interface BaseItemViewController : UIViewController
-
+@property (strong,nonatomic) NSMutableDictionary* parameter;
 @property (strong, nonatomic)GSConnectInfo *connectInfo;
 
 @end

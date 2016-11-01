@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "ShareManager.h"
 #import "UserDefaults.h"
+#import "member.h"
 @interface BroadcastHYViewController ()<GSBroadcastDelegate, GSBroadcastInvestigationDelegate, GSBroadcastVideoDelegate, GSBroadcastDesktopShareDelegate>
 {
     BOOL videoFullScreen; //视频全屏
@@ -41,8 +42,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnSetCameraFrontOrBehind;
 @property (weak, nonatomic) IBOutlet UIButton *btnReceive;
 @property (weak, nonatomic) IBOutlet UIButton *btnRoll;
-
-
+@property (strong,nonatomic) NSMutableDictionary *members;
 
 @end
 
@@ -283,7 +283,6 @@
 }
 - (IBAction)receive:(UIButton *)sender {
     [self.broadcastManager displayVideo:self.userID];
-    
 }
 
 //手势识别
@@ -607,6 +606,33 @@
     if (!result) {
         NSLog(@"音频加载失败");
     }
+}
+
+/**
+ *  其他用户加入房间代理
+ *
+ *  @param manager  触发此代理的GSBroadcastManager对象
+ *  @param userInfo 用户信息
+ *  @see GSBroadcastManager
+ *  @see GSUserInfo
+ */
+- (void)broadcastManager:(GSBroadcastManager*)manager didReceiveOtherUser:(GSUserInfo*)userInfo
+{
+
+    NSLog(@"other");
+}
+
+
+/**
+ *  其他用户离开房间
+ *
+ *  @param manager 触发此代理的GSBroadcastManager对象
+ *  @param userID  离开直播的用户ID
+ *  @see GSBroadcastManager
+ */
+- (void)broadcastManager:(GSBroadcastManager*)manager didLoseOtherUser:(long long)userID
+{
+    NSLog(@"didLoseOtherUser");
 }
 
 
