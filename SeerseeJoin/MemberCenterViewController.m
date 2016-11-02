@@ -78,8 +78,7 @@
 - (IBAction)gotoClass:(UIButton *)sender {
     CourseTableViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"CourseTablePXViewController"];
     
-    [self presentViewController:controller animated: YES completion:nil];
-    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 
@@ -110,6 +109,52 @@
     RecordingPlayViewController *controller = [board instantiateViewControllerWithIdentifier:@"RecordingTableViewController"];
     [self.navigationController pushViewController:controller animated:YES];
 }
+
+- (IBAction)aboutUs:(UIButton *)sender {
+    //NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+
+    NSString *msg = [NSString stringWithFormat:@"%@%@", @"当前的版本号为:",app_Version];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"关于无界" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+        
+    }]];
+    
+    
+    
+//    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        
+//        NSLog(@"点击确认");
+//        
+//    }]];
+//    
+//    
+//    
+//    [alertController addAction:[UIAlertAction actionWithTitle:@"警告" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+//        
+//        NSLog(@"点击警告");
+//        
+//    }]];
+    
+    
+    
+//    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+//        
+//        NSLog(@"添加一个textField就会调用 这个block");
+//        
+//    }];
+    
+    
+    
+    // 由于它是一个控制器 直接modal出来就好了
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 
 
 /*

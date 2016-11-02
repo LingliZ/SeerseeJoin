@@ -41,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *identifier = [[NSBundle mainBundle] bundleIdentifier];
+    
     
     
     [self.btnLogin.layer setMasksToBounds:YES];
@@ -75,15 +75,20 @@
 //    }
 }
 
+- (IBAction)gotoPop:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)initnav{
-    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,25,25)];
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
-    [leftButton addTarget:self action:@selector(gotoPop) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-    self.navigationItem.leftBarButtonItem= leftItem;
-    
-    self.title = nil;
-    [self.navigationController.navigationBar setBarTintColor:[@"#00CAFC" representedColor]];
+//    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,21.51,40)];
+//    [leftButton setBackgroundImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+//    [leftButton addTarget:self action:@selector(gotoPop) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+//    self.navigationItem.leftBarButtonItem= leftItem;
+//    
+//    self.title = nil;
+//    self.navigationController.navigationBar.barStyle = bar
+//    [self.navigationController.navigationBar setBarTintColor:[@"#00d4ff" representedColor]];
 }
 -(void)gotoMemberCenter{
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
@@ -98,13 +103,13 @@
     //接收到的参数
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"from"]);
     [super viewWillAppear:animated];
-    
+    self.navigationController.navigationBarHidden = YES;//用来隐藏；
 
 }
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    self.navigationController.navigationBarHidden = NO;//用来显示；
 }
 
 -(void)setup

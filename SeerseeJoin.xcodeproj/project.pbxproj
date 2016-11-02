@@ -862,7 +862,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ShareManager\"",
 				);
 				INFOPLIST_FILE = SeerseeJoin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -900,7 +900,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ShareManager\"",
 				);
 				INFOPLIST_FILE = SeerseeJoin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

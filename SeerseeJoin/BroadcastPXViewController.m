@@ -186,7 +186,7 @@
     [KeyboardToolBar registerKeyboardToolBarWithTextField:self.txtQuestionInput];
     [self.questionTable setDelegate:self];//指定委托
     [self.questionTable setDataSource:self];//指定数据委托
-    [self.view addSubview:self.viewQuestion];
+    //[self.view addSubview:self.viewQuestion];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //#warning Incomplete implementation, return the number of sections
@@ -227,8 +227,19 @@
         cell.backgroundView.backgroundColor = [UIColor clearColor];
         return;
     }
-    cell.backgroundColor = [UIColor clearColor];
-    cell.backgroundView.backgroundColor = [UIColor clearColor];
+    if([tableView isEqual:self.membersTable])
+    {
+        cell.backgroundColor = [UIColor colorWithWhite:0.3f alpha:0.3f];
+        cell.backgroundView.backgroundColor = [UIColor colorWithWhite:0.3f alpha:0.3f];
+        return;
+    }
+    
+    if([tableView isEqual:self.questionTable])
+    {
+        cell.backgroundColor = [UIColor colorWithWhite:0.3f alpha:0.3f];
+        cell.backgroundView.backgroundColor = [UIColor colorWithWhite:0.3f alpha:0.3f];
+        return;
+    }
 }
 
 
@@ -266,8 +277,7 @@
         }
         NSArray *answers = ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).answers;
         cell.textLabel.text = [NSString stringWithFormat:@" 问: %@-%@  答:%@-%@",((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).ownerName,((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionContent,((GSAnswer*)answers[indexPath.row]).ownerName,((GSAnswer*)answers[indexPath.row]).answerContent];
-        
-        //NSLog(@"iOSDemo: section: %d row: %d  answer: %@", indexPath.section, indexPath.row, ((GSAnswer*)answers[indexPath.row]).answerContent);
+    
         
         
         cell.btnReply.tag = indexPath.section;
@@ -872,13 +882,13 @@
         case GSBroadcastStatusStop:
             NSLog(@"2");
             [self.btnPlay setTitle:@"已停止" forState:UIControlStateNormal];
-            [self.btnPlay setBackgroundColor:[UIColor greenColor]];
+            [self.btnPlay setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
             self.btnPlay.tag =2;
             break;
         case GSBroadcastStatusPause:
             NSLog(@"3");
             [self.btnPlay setTitle:@"已暂停" forState:UIControlStateNormal];
-            [self.btnPlay setBackgroundColor:[UIColor greenColor]];
+            [self.btnPlay setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
             self.btnPlay.tag =3;
             break;
         default:
@@ -896,13 +906,13 @@
         case GSBroadcastStatusStop:
             NSLog(@"2");
             [self.btnRecording setTitle:@"已停止" forState:UIControlStateNormal];
-            [self.btnRecording setBackgroundColor:[UIColor greenColor]];
+            [self.btnRecording setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
             self.btnRecording.tag =2;
             break;
         case GSBroadcastStatusPause:
             NSLog(@"3");
             [self.btnRecording setTitle:@"已暂停" forState:UIControlStateNormal];
-            [self.btnRecording setBackgroundColor:[UIColor greenColor]];
+            [self.btnRecording setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
             self.btnRecording.tag =3;
             break;
         default:
