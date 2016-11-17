@@ -303,6 +303,11 @@ interfaceOrientation duration:(NSTimeInterval)duration {
 //    }
 //}
 
+-(void)handleDocViewTap:(UITapGestureRecognizer*)recongnizer
+{
+    
+}
+
 - (void)handleVideoViewTap:(UITapGestureRecognizer*)recognizer
 {
     if (!videoFullScreen)

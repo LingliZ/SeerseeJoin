@@ -47,7 +47,7 @@
              
              NSString *version = [ios valueForKey:@"version"];
              NSString *url = [ios valueForKey:@"url"];
-             
+             NSLog(@"%@", url);
              NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
              NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
              float vmy =[app_Version floatValue];
@@ -88,7 +88,7 @@
     if([UserDefaults loginName].length>0&&[UserDefaults domain].length>0&&[UserDefaults loginPassword].length>0){
         UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
         CourseTableHYViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseTableHYViewController"];
-        
+        [self.parameter setObject:@"CourseTableHYViewController" forKey:@"from"];
         controller.parameter = self.parameter;
         controller.domain = [UserDefaults domain];
         controller.loginName = [UserDefaults loginName];
@@ -111,7 +111,7 @@
     if([UserDefaults loginName].length>0&&[UserDefaults domain].length>0&&[UserDefaults loginPassword].length>0){
         UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
         CourseTablePXViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseTablePXViewController"];
-        
+        [self.parameter setObject:@"CourseTablePXViewController" forKey:@"from"];
         controller.parameter = self.parameter;
         controller.domain = [UserDefaults domain];
         controller.loginName = [UserDefaults loginName];
@@ -128,6 +128,17 @@
     LoginViewController *controller = [board instantiateViewControllerWithIdentifier:@"LoginViewController"];
     controller.parameter = self.parameter;
     [self.navigationController pushViewController:controller animated:true];
+}
+
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
 }
 /*
 #pragma mark - Navigation

@@ -11,4 +11,6 @@ target 'SeerseeJoin' do
   pod 'ShareManager', '~> 0.4.0'
   pod 'NSString+Color', '~> 1.1.4'
   pod 'KeyboardToolBar', '~> 2.0.1'
+  pod 'SGImageCache', '~> 2.4.0'
+  pod 'KSCrash', '~> 1.10.1'
 end

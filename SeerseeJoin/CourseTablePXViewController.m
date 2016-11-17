@@ -8,13 +8,14 @@
 
 #import "CourseTablePXViewController.h"
 #import "CourseCellTableViewCell.h"
-#import "AFNetworking.h"
 #import "BaseItemViewController.h"
 #import "UserDefaults.h"
 #import "MemberCenterViewController.h"
 #import <NSString+Color.h>
 #import "CourseEditViewController.h"
 #import "ShareManager.h"
+#import <AFNetworking.h>
+#import <SGImageCache.h>
 @interface CourseTablePXViewController ()
 
 @property (strong, nonatomic)NSArray *nsmres;
@@ -38,9 +39,10 @@
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"from"]);
     [super viewWillAppear:animated];
     
-    self.title = @"上课";
+    //self.title = @"上课2";
     [self inittoolbar];
     [self loadData];
+
 }
 - (void)viewWillDisappear:(BOOL)animated {
     
@@ -85,13 +87,15 @@
     self.navigationItem.leftBarButtonItem= leftItem;
     
     //标题
+    [self.navigationController.navigationBar setTitleTextAttributes:
+  @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     if([[self.parameter objectForKey:@"from"] isEqualToString:@"CourseTableHYViewController"])
     {
-        [self.navigationItem setTitle:@"会议"];
+        self.title = @"会议";
     }
     if([[self.parameter objectForKey:@"from"] isEqualToString:@"CourseTablePXViewController"])
     {
-        [self.navigationItem setTitle:@"上课"];
+        self.title = @"上课";
     }
     [self.navigationController.navigationBar setBarTintColor:[@"#00a2ff" representedColor]];
 }
@@ -131,23 +135,39 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //#warning Incomplete implementation, return the number of rows
-    NSInteger *a = self.nsmres.count;
     return self.nsmres.count;
-    //return 2;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyIdentifier"];
     CourseCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CourseCell" forIndexPath:indexPath];
-    //cell.imagePhoto.image =[_nsmres[indexPath.row] objectForKey:@"cover"];
+    if (cell == nil) {
+        cell = [[CourseCellTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CourseCell"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
     if(self.nsmres!=nil&&self.nsmres!=NULL)
     {
         NSDictionary *info = self.nsmres[indexPath.row];
-        NSString *rid =[info objectForKey:@"id"];
+        //NSString *rid =[info objectForKey:@"id"];
         cell.titleLabel.text = [info objectForKey:@"title"];
+        cell.imagePhoto.image=[UIImage imageNamed:@"dimg.jpg"];
         NSString *url =[info objectForKey:@"cover"];
-        NSURL *imageUrl = [NSURL URLWithString:url];
-        cell.imagePhoto.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
+        
+        //异步方案一
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                cell.imagePhoto.image=image;
+//            });
+//        });
+        //异步方案二
+        [SGImageCache getImageForURL:url].then(^(UIImage *image) {
+            if(image)
+            {
+                cell.imagePhoto.image=image;
+            }
+        });
         
         cell.btnEdit.tag=indexPath.row;
         [cell.btnEdit addTarget:self action:@selector(handEdit:) forControlEvents:UIControlEventTouchUpInside];
@@ -169,7 +189,7 @@
                 break;
             case 0:
                 cell.labelStatus.text = @"未开始";
-                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.4];
+                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
                 break;
             case 1:
                 cell.labelStatus.text = @"直播中";
@@ -177,7 +197,7 @@
                 break;
             case 2:
                 cell.labelStatus.text = @"暂停";
-                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.4];
+                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
                 break;
             case 3:
                 cell.labelStatus.text = @"已结束";
@@ -192,8 +212,57 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-}
+    //上次的房间号
+    NSDictionary *info = self.nsmres[indexPath.row];
+    NSString *rid =[info objectForKey:@"id"];
+    //NSString *title =[info objectForKey:@"title"];
+    if(rid.length>0)
+    {
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
+        NSDictionary *param = @{@"id":rid};
+        [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+        }
+             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                 NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
+                 NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
+                 NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
+                 
+                 UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                 BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastPXViewController"];
+                 
+                 GSConnectInfo *connectInfo = [GSConnectInfo new];
+                 
+                 connectInfo.domain = @"service.seersee.com";
+                 connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
+                 connectInfo.loginName = @"admin@seersee.com";
+                 connectInfo.loginPassword = @"tgc0428seersee";
+                 connectInfo.roomNumber = roomNumber;
+                 connectInfo.nickName = self.loginName;
+                 connectInfo.watchPassword = organizerToken;
+                 connectInfo.thirdToken = self.token;
+                 connectInfo.oldVersion = YES;
+                 
+                 [UserDefaults setRoomNumber:self.roomNumber];
+                 [UserDefaults setSeerseeliveId:rid];
+                 [UserDefaults setOrganizerToken:organizerToken];
+                 [UserDefaults setPanelistToken:panelistToken];
+                 [UserDefaults save];
+                 controller.connectInfo = connectInfo;
+                 
+                 [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
+                 controller.parameter = self.parameter;
+                 
+                 [self presentViewController:controller animated: YES completion:nil];
+                 //[self.navigationController pushViewController:controller animated:YES];
+             }
+         
+             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+                 NSLog(@"%@",error);  //这里打印错误信息
+                 
+             }];
+    }}
 
 -(void)handEdit:(UIButton*)btn{
     //NSLog(@"%@",btn.tag);
@@ -226,7 +295,7 @@
     //NSString *rid =@"10074";
     NSDictionary *info = self.nsmres[btn.tag];
     NSString *rid =[info objectForKey:@"id"];
-    NSString *title =[info objectForKey:@"title"];
+    //NSString *title =[info objectForKey:@"title"];
     if(rid.length>0)
     {
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -280,7 +349,7 @@
     //上次的房间号
     NSDictionary *info = self.nsmres[btn.tag];
     NSString *rid =[info objectForKey:@"id"];
-    NSString *title =[info objectForKey:@"title"];
+    //NSString *title =[info objectForKey:@"title"];
     if(rid.length>0)
     {
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -320,6 +389,7 @@
                  controller.parameter = self.parameter;
                  
                  [self presentViewController:controller animated: YES completion:nil];
+                 //[self.navigationController pushViewController:controller animated:YES];
              }
          
              failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
@@ -328,6 +398,25 @@
              }];
     }
 }
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
+}
+
+//-(NSUInteger)supportedInterfaceOrientations
+//{
+//    return UIInterfaceOrientationPortrait;
+//}
+//- (BOOL)shouldAutorotate
+//{
+//    return NO;
+//}
 
 
 

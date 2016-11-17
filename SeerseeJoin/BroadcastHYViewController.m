@@ -403,6 +403,7 @@
 }
 
 -(void)handleMembers{
+    [self hiddleTables];
     if(self.btnMembers.tag==1)
     {
         [self.view sendSubviewToBack:self.membersTable];
@@ -411,6 +412,7 @@
     }
     else{
         [self.membersTable reloadData];
+        
         [self.view bringSubviewToFront:self.membersTable];
         self.btnMembers.tag = 1;
     }
@@ -423,10 +425,13 @@
     //展示行为列表
     [sheet showInView:self.view];
 }
-
+-(void)handleSwitchDoc{
+    //int t = self.btn
+}
 
 
 -(void)handleDoc{
+    [self hiddleTables];
     if(self.btnDoc.tag==1)
     {
         self.btnDoc.tag=0;
@@ -439,10 +444,10 @@
         self.btnDoc.tag=1;
         [self.docTable reloadData];
         [self.view bringSubviewToFront:_videoViewDoc];
-        [self.view bringSubviewToFront:_toolBar];
         [self.view bringSubviewToFront:_videoViewOnline];
         [self.view bringSubviewToFront:_btnRoll];
         [self.view bringSubviewToFront:_docTable];
+        [self.view bringSubviewToFront:_toolBar];
     }
     
     
@@ -452,6 +457,7 @@
     //    [self.view bringSubviewToFront:self.querstionTable];
     //    [self.querstionTable reloadData];
     //self.btnQuestion.tag = 1;
+    [self hiddleTables];
     if(self.btnMembers.tag==1)
     {
         
@@ -466,6 +472,28 @@
         [self.view bringSubviewToFront:self.viewQuestion];
         [self.view bringSubviewToFront:self.questionTable];
         self.btnMembers.tag = 1;
+    }
+}
+
+-(void)hiddleTables{
+    if(self.btnMembers.tag==1)
+    {
+        [self.view sendSubviewToBack:self.viewQuestion];
+        [self.view sendSubviewToBack:self.questionTable];
+        self.btnMembers.tag = 0;
+    }
+    if(self.btnDoc.tag==1)
+    {
+        self.btnDoc.tag=0;
+        [self.view sendSubviewToBack:_videoViewDoc];
+        [self.view sendSubviewToBack:_btnRoll];
+        [self.view sendSubviewToBack:_docTable];
+    }
+    if(self.btnMembers.tag==1)
+    {
+        [self.view sendSubviewToBack:self.membersTable];
+        self.btnMembers.tag = 0;
+        
     }
 }
 

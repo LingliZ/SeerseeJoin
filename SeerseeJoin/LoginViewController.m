@@ -218,7 +218,7 @@
                  //[self presentViewController:controller animated:YES completion:nil];
              }else{
                  //登录失败
-                 NSString *errorcode = [responseObject objectForKey:@"code"];
+                 //NSString *errorcode = [responseObject objectForKey:@"code"];
                  UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"WrongConnectInfo", [@"用户名密码有误：" stringByAppendingString:errorcode]) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"知道了") otherButtonTitles:nil, nil];
                  [alertView show];
                  
@@ -314,6 +314,17 @@
     
     return  output;
     
+}
+
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
 }
 /*
  #pragma mark - Navigation

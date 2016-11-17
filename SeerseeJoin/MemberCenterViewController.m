@@ -45,6 +45,8 @@
     
     self.v4.layer.borderWidth =1;
     self.v4.layer.borderColor = [UIColor colorWithRed:20/255.0 green:20/255.0 blue:20/255.0 alpha:0.5].CGColor;
+    
+    //self.v1Img addta
     [self initnav];
 }
 
@@ -52,6 +54,9 @@
 {
     [super viewWillAppear:animated];
     self.title = @"我的";
+    _imageviewHeadimg.layer.masksToBounds =YES;
+    
+    _imageviewHeadimg.layer.cornerRadius =50;
 }
 
 -(void)initnav{
@@ -101,7 +106,6 @@
         ChoiceCenterViewController *controller = [board instantiateViewControllerWithIdentifier:@"ChoiceCenterViewController"];
         
         [self.navigationController pushViewController:controller animated:YES];
-
     }
 }
 - (IBAction)gotoRecording:(UIButton *)sender {
@@ -155,7 +159,16 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+-(BOOL)shouldAutorotate{
+    return NO;
+}
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
+}
 
 /*
 #pragma mark - Navigation

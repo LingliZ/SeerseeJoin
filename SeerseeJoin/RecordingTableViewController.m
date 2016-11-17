@@ -125,7 +125,7 @@
     if(self.nsmres!=nil&&self.nsmres!=NULL)
     {
         NSDictionary *info = self.nsmres[indexPath.row];
-        NSString *rid =[info objectForKey:@"id"];
+        //NSString *rid =[info objectForKey:@"id"];
         cell.labelTitle.text = [info objectForKey:@"title"];
         
         
@@ -259,6 +259,17 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
+}
+
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
 }
 
 /*

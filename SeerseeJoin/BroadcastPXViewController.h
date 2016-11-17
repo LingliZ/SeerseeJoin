@@ -11,7 +11,7 @@
 
 @interface BroadcastPXViewController : BaseItemViewController
 
-@property (strong,nonatomic) NSMutableDictionary* parameter;
+//@property (strong,nonatomic) NSMutableDictionary* parameter;
 
 @property (strong, nonatomic)NSString *domain;
 

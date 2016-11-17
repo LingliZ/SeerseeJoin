@@ -47,6 +47,7 @@
 
 @property (strong, nonatomic)NSMutableDictionary *questionsDic;
 @property (strong, nonatomic)NSMutableArray *questionArray;
+@property (strong, nonatomic)NSMutableArray *questionArrayNew;
 @property unsigned int globalPageID;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
@@ -57,14 +58,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnMicrophone;
 @property (weak, nonatomic) IBOutlet UIButton *btnShare;
 @property (weak, nonatomic) IBOutlet UIButton *btnSetCameraFrontOrBehind;
-@property (weak, nonatomic) IBOutlet UIButton *btnRoll;
+@property (weak, nonatomic) IBOutlet UIButton *btnUploadImg;
+@property (weak, nonatomic) IBOutlet UIButton *btnSwitchDoc;
 @property (weak, nonatomic) IBOutlet UIButton *btnMembers;
 @property (weak, nonatomic) IBOutlet UIButton *btnQuestion;
 @property (weak, nonatomic) IBOutlet UIButton *btnVoice;
 
 
 @property (strong,nonatomic) NSMutableArray *membersArr;
-@property (strong,nonatomic) NSMutableDictionary *members;
+@property (strong,nonatomic) NSMutableDictionary *membersDic;
 @property (strong,nonatomic) NSMutableArray *docArr;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelCount;
@@ -84,6 +86,8 @@
 {
     AVCaptureVideoPreviewLayer *_previewLayer;
 }
+
+#pragma mark lifecycle -生命周期
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     statusCamera=true;
@@ -91,13 +95,30 @@
     statusSetCameraFrontOrBehind = true;
     statusTapScreen = false;
     
+    [self.btnPlay.layer setBorderWidth:1];
+    self.btnPlay.layer.borderColor=[UIColor whiteColor].CGColor;
+    [self.btnRecording.layer setBorderWidth:1];
+    self.btnRecording.layer.borderColor=[UIColor whiteColor].CGColor;
+    [self.btnUploadImg.layer setBorderWidth:1];
+    self.btnUploadImg.layer.borderColor=[UIColor whiteColor].CGColor;
+    [self.btnSwitchDoc.layer setBorderWidth:1];
+    self.btnSwitchDoc.layer.borderColor=[UIColor whiteColor].CGColor;
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"castname"]);
     self.labelTitle.text =[self.parameter objectForKey:@"castname"];
-
+    [UIApplication sharedApplication].idleTimerDisabled=NO;//自动锁屏
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].idleTimerDisabled=YES;//不自动锁屏
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _members = [[NSMutableDictionary alloc] init];
+    
+
+    _membersDic = [[NSMutableDictionary alloc] init];
     _membersArr = [[NSMutableArray alloc] init];
     _docArr = [[NSMutableArray alloc]init];
     _questionsDic = [NSMutableDictionary dictionary];
@@ -116,7 +137,8 @@
     [self.btnSetCameraFrontOrBehind addTarget:self action:@selector(handleSetCameraFrontOrBehind:) forControlEvents:UIControlEventTouchUpInside];
     [self.btnVoice addTarget:self action:@selector(handVoice:) forControlEvents:UIControlEventTouchUpInside];
     [self.btnShare addTarget:self action:@selector(handleShare) forControlEvents:UIControlEventTouchUpInside];
-    [self.btnRoll addTarget:self action:@selector(handleRoll) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnUploadImg addTarget:self action:@selector(handleUploadImg) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnSwitchDoc addTarget:self action:@selector(handleSwitchDoc) forControlEvents:UIControlEventTouchUpInside];
     [self.btnDoc addTarget:self action:@selector(handleDoc) forControlEvents:UIControlEventTouchUpInside];
     [self.btnMembers addTarget:self action:@selector(handleMembers) forControlEvents:UIControlEventTouchUpInside];
     [self.btnQuestion addTarget:self action:@selector(handQuestion) forControlEvents:UIControlEventTouchUpInside];
@@ -127,14 +149,11 @@
     [self setupQuestion];
 }
 
+#pragma setup - 初始化方法
+
 - (void)setup
 {
-    _originalVideoFrame = CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.width);
-    self.videoView = [[GSVideoView alloc]initWithFrame:_originalVideoFrame];
-    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleVideoViewTap:)];
-    [self.videoView addGestureRecognizer:tapGes];
-    self.videoView.videoViewContentMode = GSVideoViewContentModeRatioFit;
-    [self.view addSubview:self.videoView];
+
 }
 
 -(void)setupActionSheet{
@@ -154,30 +173,36 @@
     
     _originalDocFrame = CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.width);
     self.videoViewDoc = [[GSDocView alloc]initWithFrame:_originalDocFrame];
-    self.videoViewDoc.backgroundColor = [UIColor grayColor];
+    [self.videoViewDoc setGlkBackgroundColor:0 green:0 blue:0];
     self.videoViewDoc.zoomEnabled = YES;
     self.videoViewDoc.fullMode = NO;
     
     UISwipeGestureRecognizer *recognizer;
-    recognizer= [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleDocViewTap:)];
+    recognizer= [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleDocViewSwipe:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
     [self.videoViewDoc addGestureRecognizer:recognizer];
     
     
-    recognizer= [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleDocViewTap:)];
+    recognizer= [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleDocViewSwipe:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [self.videoViewDoc addGestureRecognizer:recognizer];
+    
+    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDocViewTap:)];
+    [self.videoViewDoc addGestureRecognizer:tapGes];
+
   
     [self.view addSubview:self.videoViewDoc];
 }
 
 - (void)setupOnline
 {
-    //_originalVideoOnlineFrame = CGRectMake(20, 100, 150, 150);
-    int a = self.view.frame.size.width-30+20-150;
-    _originalVideoOnlineFrame = CGRectMake(30, a, 150, 150);
+    _originalVideoOnlineFrame = CGRectMake(0, 0, self.view.bounds.size.height, self.view.bounds.size.width);
     self.videoViewOnline = [[GSVideoView alloc]initWithFrame:_originalVideoOnlineFrame];
     self.videoViewOnline.videoViewContentMode = GSVideoViewContentModeRatioFill;
+    
+    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleVideoViewTap:)];
+    [self.videoViewOnline addGestureRecognizer:tapGes];
+    
     [self.view addSubview:self.videoViewOnline];
 }
 
@@ -186,8 +211,11 @@
     [KeyboardToolBar registerKeyboardToolBarWithTextField:self.txtQuestionInput];
     [self.questionTable setDelegate:self];//指定委托
     [self.questionTable setDataSource:self];//指定数据委托
-    //[self.view addSubview:self.viewQuestion];
+    [self.questionTable setBackgroundColor:[UIColor colorWithWhite:0.7 alpha:0.5]];
 }
+
+#pragma mark - UITable相关设置
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //#warning Incomplete implementation, return the number of sections
     
@@ -197,6 +225,7 @@
     }
     if([tableView isEqual:self.questionTable])
     {
+        //return 1;
         return _questionArray.count;
     }
     return 1;
@@ -211,7 +240,12 @@
     }
     if([tableView isEqual:self.questionTable])
     {
-        return ((GSQuestion*)[_questionsDic objectForKey:_questionArray[section]]).answers.count;
+        NSUInteger c =((GSQuestion*)[_questionsDic objectForKey:_questionArray[section]]).answers.count;
+        if(c<=0)
+        {
+            c=1;
+        }
+        return c;
     }
     if([tableView isEqual:self.docTable])
     {
@@ -254,11 +288,13 @@
             NSObject *a = self.membersArr[indexPath.row];
             
             cell.mName.text =[a valueForKey:@"userName"];
-            cell.btnShotof.tag =indexPath.row;
-            [cell.btnShotof addTarget:self action:@selector(handShotOffUser:) forControlEvents:UIControlEventTouchUpInside];
             
             cell.btnMainVideo.tag = indexPath.row;
             [cell.btnMainVideo addTarget:self action:@selector(handMainVideoUser:) forControlEvents:UIControlEventTouchUpInside];
+            
+            cell.btnShotof.tag =indexPath.row;
+            [cell.btnShotof setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:0.6]];//par1(0~1之间，从黑到白,alpha0~1  透明到不透明)
+            [cell.btnShotof addTarget:self action:@selector(handShotOffUser:) forControlEvents:UIControlEventTouchUpInside];
             
             cell.btnMic.tag = indexPath.row;
             [cell.btnMic addTarget:self action:@selector(handMicUser:) forControlEvents:UIControlEventTouchUpInside];
@@ -276,11 +312,41 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         NSArray *answers = ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).answers;
-        cell.textLabel.text = [NSString stringWithFormat:@" 问: %@-%@  答:%@-%@",((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).ownerName,((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionContent,((GSAnswer*)answers[indexPath.row]).ownerName,((GSAnswer*)answers[indexPath.row]).answerContent];
-    
+        NSString *answername =answers.count>0?((GSAnswer*)answers[indexPath.row]).ownerName:@"";
+        NSString *answercontent =answers.count>0?((GSAnswer*)answers[indexPath.row]).answerContent:@"";
+        
+        NSDateFormatter * formatter = [[NSDateFormatter alloc ] init];
+        //[formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss:SSS"];
+        [formatter setDateFormat:@"hh:mm:ss"];
+        NSString *date =  [formatter stringFromDate:[NSDate date]];
+        NSString *timeLocal = [[NSString alloc] initWithFormat:@"%@", date];
+        //NSLog(@"%@", timeLocal);
+        
+        if(answers.count>0)
+        {
+            NSMutableAttributedString *hintString=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@" [%@]:%@         [%@]回复:%@   %@",
+                                                                                                                ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).ownerName,
+                                                                                                                ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionContent,
+                                                                                                                answername,
+                                                                                                                answercontent,
+                                                                                                                timeLocal
+                                                                                                                ]];
+            NSRange range=[[hintString string]rangeOfString:[NSString stringWithFormat:@"[%@]回复", answername]];
+            [hintString addAttribute:NSForegroundColorAttributeName value:[@"#00a2ff" representedColor] range:range];
+            cell.labelContent.attributedText = hintString;
+        }
+        else{
+            NSMutableAttributedString *hintString=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@" [%@]:%@  %@",
+                                                                                                    ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).ownerName,
+                                                                                                    ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionContent,
+                                                                                                    timeLocal
+                                                                                                    ]];
+            cell.labelContent.attributedText = hintString;
+        }
         
         
         cell.btnReply.tag = indexPath.section;
+        [cell.btnReply setTintColor:[UIColor orangeColor]];
         [cell.btnReply addTarget:self action:@selector(handleReply:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
@@ -290,8 +356,8 @@
         if(self.docArr!=nil&&self.docArr!=NULL)
         {
             NSObject *a = self.docArr[indexPath.row];
-            
             cell.textLabel.text =[a valueForKey:@"docName"];
+            cell.textLabel.textColor = [UIColor whiteColor];
         }
         return cell;
     }
@@ -300,17 +366,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if([tableView isEqual:self.questionTable])
-//    {
-//        _questionAnswering =((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionID;
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您的回答" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//        [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
-//        UITextField *txtName = [alert textFieldAtIndex:0];
-//        txtName.placeholder = @"说点什么吧";
-//        alert.tag = 1;
-//        [alert show];
-//    }
-    
     if([tableView isEqual:self.docTable])
     {
         NSObject *a = self.docArr[indexPath.row];
@@ -321,21 +376,50 @@
     }
 }
 
-#pragma mark - 点击代理
+#pragma mark - AlertView，UIActionSheet代理
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     //long t =alertView.tag;
     if (buttonIndex == 1) {
         UITextField *txt = [alertView textFieldAtIndex:0];
         //获取txt内容即可
-        //NSArray *qid = ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionID;
-        //- (BOOL)answerQuestion:(NSString*)questionID answer:(NSString*)answerContent;
-         bool res =[self.broadcastManager answerQuestion:_questionAnswering answer:txt.text];
+         [self.broadcastManager answerQuestion:_questionAnswering answer:txt.text];
     }
 }
 
+//UIActionSheet的协议方法
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex==0){
+        UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+        _imagePickerController = [[UIImagePickerController alloc] init];//初始化
+        _imagePickerController.delegate = self;
+        _imagePickerController.allowsEditing = YES;//设置可编辑
+        _imagePickerController.sourceType = sourceType;
+        
+        [self presentViewController:_imagePickerController animated:YES completion:^{
+            NSLog(@"进入相机");
+        }];
+    }
+    else if(buttonIndex==1){
+        _imagePickerController = [[UIImagePickerController alloc]init];
+        _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        //创建源类型
+        UIImagePickerControllerSourceType mySourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        _imagePickerController.sourceType = mySourceType;
+        //设置代理
+        _imagePickerController.delegate = self;
+        //设置可编辑
+        _imagePickerController.allowsEditing = YES;
+        //通过模态的方式推出系统相册
+        [self presentViewController:_imagePickerController animated:YES completion:^{
+            NSLog(@"进入相册");
+        }];
+        
+        
+    }
+}
 
-
-
+#pragma mark - 用户列表方法处理
 //踢出用户
 -(void)handShotOffUser:(UIButton*)btn{
     NSLog(@"vvv%ld",(long)btn.tag);
@@ -354,7 +438,7 @@
 -(void)handMainVideoUser:(UIButton*)btn{
     GSUserInfo *userInfo =[self.membersArr objectAtIndex:btn.tag];
 
-    bool res = [self.broadcastManager setVideo:userInfo.userID active:YES];
+    [self.broadcastManager setVideo:userInfo.userID active:YES];
 }
 
 //关闭打开麦克风－列表
@@ -412,7 +496,10 @@
     }
 }
 
+#pragma mark - 主界面方法处理
+
 -(void)handleMembers{
+
     if(self.btnMembers.tag==1)
     {
         [self.view sendSubviewToBack:self.membersTable];
@@ -420,60 +507,76 @@
     
     }
     else{
+        [self hiddleTables];
         [self.membersTable reloadData];
         [self.view bringSubviewToFront:self.membersTable];
         self.btnMembers.tag = 1;
     }
-    
-
 }
-
--(void)handleRoll{
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"拍照" otherButtonTitles:@"相册", nil];
-    //展示行为列表
-    [sheet showInView:self.view];
-}
-
-
 
 -(void)handleDoc{
+    
     if(self.btnDoc.tag==1)
     {
         self.btnDoc.tag=0;
         [self.view sendSubviewToBack:_videoViewDoc];
-        [self.view sendSubviewToBack:_btnRoll];
+        [self.view sendSubviewToBack:_btnUploadImg];
+        [self.view sendSubviewToBack:_btnSwitchDoc];
         [self.view sendSubviewToBack:_docTable];
     }
     else
     {
-        self.btnDoc.tag=1;
+        [self hiddleTables];
         [self.docTable reloadData];
+
         [self.view bringSubviewToFront:_videoViewDoc];
-        [self.view bringSubviewToFront:_toolBar];
-        [self.view bringSubviewToFront:_videoViewOnline];
-        [self.view bringSubviewToFront:_btnRoll];
+
+        //[self.view.layer addSublayer:_previewLayer];
+        [self.view bringSubviewToFront:_btnSwitchDoc];
+        [self.view bringSubviewToFront:_btnUploadImg];
         [self.view bringSubviewToFront:_docTable];
+        [self.view bringSubviewToFront:_toolBar];
+        
+        [self.view.layer addSublayer:_previewLayer];
+        self.btnDoc.tag=1;
     }
-    
-    
 }
 -(void)handQuestion{
-    
-//    [self.view bringSubviewToFront:self.querstionTable];
-//    [self.querstionTable reloadData];
-    //self.btnQuestion.tag = 1;
-    if(self.btnMembers.tag==1)
+    if(self.btnQuestion.tag==1)
     {
         [self.view sendSubviewToBack:self.questionTable];
         [self.view sendSubviewToBack:self.viewQuestion];
-        self.btnMembers.tag = 0;
-        
+        [self.btnQuestion setImage:[UIImage imageNamed:@"chat.png"] forState:UIControlStateNormal];
+        self.btnQuestion.tag = 0;
     }
     else{
+        [self hiddleTables];
         [self.questionTable reloadData];
         [self.view bringSubviewToFront:self.questionTable];
         [self.view bringSubviewToFront:self.viewQuestion];
-        self.btnMembers.tag = 1;
+        self.btnQuestion.tag = 1;
+    }
+}
+
+-(void)hiddleTables{
+    if(self.btnQuestion.tag==1)
+    {
+        [self.view sendSubviewToBack:self.questionTable];
+        [self.view sendSubviewToBack:self.viewQuestion];
+        self.btnQuestion.tag = 0;
+    }
+    if(self.btnDoc.tag==1)
+    {
+        self.btnDoc.tag=0;
+        [self.view sendSubviewToBack:_videoViewDoc];
+        [self.view sendSubviewToBack:_btnUploadImg];
+        [self.view sendSubviewToBack:_docTable];
+    }
+    if(self.btnMembers.tag==1)
+    {
+        [self.view sendSubviewToBack:self.membersTable];
+        self.btnMembers.tag = 0;
+        
     }
 }
 
@@ -486,6 +589,26 @@
     NSLog(@"send");
 }
 
+-(void)handleUploadImg{
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"拍照" otherButtonTitles:@"相册", nil];
+    //展示行为列表
+    [sheet showInView:self.view];
+}
+
+-(void)handleSwitchDoc{
+    NSInteger t = self.btnSwitchDoc.tag;
+    if(t==0)
+    {
+        self.btnSwitchDoc.tag=1;
+        [self.docTable setHidden:NO];
+    }
+    else if(t==1)
+    {
+        self.btnSwitchDoc.tag=0;
+        [self.docTable setHidden:YES];
+    }
+}
+
 -(void)handleReply:(UIButton*)btn{
     _questionAnswering =((GSQuestion*)[_questionsDic objectForKey:_questionArray[btn.tag]]).questionID;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您的回答" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -496,51 +619,7 @@
     [alert show];
 }
 
-//UIActionSheet的协议方法
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex==0){
-        UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
-        //    if (![UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
-        //        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        //    }
-        //sourceType = UIImagePickerControllerSourceTypeCamera; //照相机
-        //sourceType = UIImagePickerControllerSourceTypePhotoLibrary; //图片库
-        //sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum; //保存的相片
-        _imagePickerController = [[UIImagePickerController alloc] init];//初始化
-        _imagePickerController.delegate = self;
-        _imagePickerController.allowsEditing = YES;//设置可编辑
-        _imagePickerController.sourceType = sourceType;
-        
-        [self presentViewController:_imagePickerController animated:YES completion:^{
-            NSLog(@"进入相机");
-        }];
-        //[picker release];
-    }
-    else if(buttonIndex==1){
-        //NSLog(@"相册");
-        _imagePickerController = [[UIImagePickerController alloc]init];
-        _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
-        //UIImagePickerController *myPicker = [[UIImagePickerController alloc]init];
-        
-        //创建源类型
-        UIImagePickerControllerSourceType mySourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
-        _imagePickerController.sourceType = mySourceType;
-        
-        //设置代理
-        _imagePickerController.delegate = self;
-        //设置可编辑
-        _imagePickerController.allowsEditing = YES;
-        //通过模态的方式推出系统相册
-        [self presentViewController:_imagePickerController animated:YES completion:^{
-            NSLog(@"进入相册");
-        }];
 
-        
-    }
-}
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [picker dismissViewControllerAnimated:YES completion:^{
         NSLog(@"取消") ;
@@ -551,14 +630,6 @@
 {
     //取得所选取的图片,原大小,可编辑等，info是选取的图片的信息字典
     UIImage *selectImage = [info objectForKey:UIImagePickerControllerEditedImage];
-    //NSData *data = UIImagePNGRepresentation(selectImage);//获取图片数据
-    //设置图片进相框
-//    self.choiceimage.image = selectImage;
-//    [self.btnChoiceImage  setBackgroundImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-//    self.imgdata=UIImagePNGRepresentation(selectImage);//获取图片数据
-    
-    
-    //10-20
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
     UIImage* imageItem = selectImage;
     
@@ -573,10 +644,7 @@
         [alert show];
         return;
     }
-    
-    
-    
-    //    NSString* titleTextName=[[LiveMgr shareInstance] getNameForPublishImage];
+
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     // 设置时间格式
     formatter.dateFormat = @"yyyyMMddHHmmss";
@@ -584,9 +652,6 @@
     unsigned int m_docId= [self.broadcastManager publishDocOpen:str];
     unsigned int pageHandle=0;
     
-    
-    
-    //
     CGFloat imageH= imageItem.size.height;
     CGFloat imageW= imageItem.size.width;
     
@@ -600,9 +665,6 @@
     //    NSData *imageData = 0(imageItem);
     
     NSData *imageData = UIImageJPEGRepresentation([self scaleAndRotateImage: imageItem],0.93);
-    
-    
-    
     BOOL isSuccess=   [self.broadcastManager publishDocTranslataData:m_docId pageHandle:pageHandle pageWidth:imageW pageHeight:imageH bitCounts:bitCounts titleText:titleText fullText:fullText aniCfg:aniCfg pageComment:pageComment data:imageData];
     
     
@@ -783,11 +845,11 @@
     if(s==1){
         [self.broadcastManager inactivateCamera];
         btn.tag=0;
-        [btn setBackgroundImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"camera0.png"] forState:UIControlStateNormal];
     }else{
         [self.broadcastManager activateCamera];
         btn.tag=1;
-        [btn setBackgroundImage:[UIImage imageNamed:@"camera0.png"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"camera.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -796,11 +858,11 @@
     if(s==1){
         [self.broadcastManager inactivateMicrophone];
         btn.tag=0;
-        [btn setBackgroundImage:[UIImage imageNamed:@"mic1.png"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"mic0.png"] forState:UIControlStateNormal];
     }else{
         [self.broadcastManager activateMicrophone];
         btn.tag=1;
-        [btn setBackgroundImage:[UIImage imageNamed:@"mic0.png"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"mic1.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -820,11 +882,11 @@
     if(s==1){
         [self.broadcastManager inactivateSpeaker];
         btn.tag=0;
-        [btn setBackgroundImage:[UIImage imageNamed:@"speaker_on.png"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"speaker_off.png"] forState:UIControlStateNormal];
     }else{
         [self.broadcastManager activateSpeaker];
         btn.tag=1;
-        [btn setBackgroundImage:[UIImage imageNamed:@"speaker_off.png"] forState:UIControlStateNormal];
+        [btn setImage:[UIImage imageNamed:@"speaker_on.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -845,14 +907,6 @@
     [self.view sendSubviewToBack:_btnVoice];
 }
 
--(BOOL)shouldAutorotate{
-    return NO;
-}
-
--(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
-    return UIInterfaceOrientationLandscapeRight;
-}
-
 - (void)back:(id)sender
 {
     [self.broadcastManager leaveAndShouldTerminateBroadcast:NO];
@@ -861,6 +915,19 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }
+#pragma mark -页面设置
+
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskLandscapeRight;
+}
+ -(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationLandscapeRight;
+}
+
 
 //设置后台运行
 - (void)enterBackground
@@ -869,6 +936,50 @@
     [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     [session setActive:YES error:nil];
 }
+#pragma mark -手势识别
+//手势识别
+- (void)handleVideoViewTap:(UITapGestureRecognizer*)recognizer
+{
+    
+    if(statusTapScreen)
+    {
+        [self btnsHide];
+        statusTapScreen=false;
+    }else{
+        [self btnsShow];
+        statusTapScreen=true;
+    }
+}
+
+- (void)handleDocViewTap:(UITapGestureRecognizer*)recognizer
+{
+    self.btnSwitchDoc.tag=0;
+    [self.docTable setHidden:YES];
+}
+
+//
+-(void)handleDocViewSwipe:(UISwipeGestureRecognizer*)recognizer
+{
+    if(recognizer.direction ==UISwipeGestureRecognizerDirectionLeft)
+    {
+        unsigned int p =_globalPageID-1;
+        [self.broadcastManager publishDocGotoPage:_globaldocument.docID pageId:p sync2other:YES];
+        NSLog(@"左滑动");
+    }
+    if(recognizer.direction ==UISwipeGestureRecognizerDirectionRight)
+    {
+        unsigned int p =_globalPageID+1;
+        [self.broadcastManager publishDocGotoPage:_globaldocument.docID pageId:p sync2other:YES];
+        NSLog(@"右滑动");
+    }
+}
+
+- (void)handleVideoViewSwipe:(UISwipeGestureRecognizer*)recognizer
+{
+    [self btnsHide];
+}
+
+#pragma mark -展示互动相关
 
 - (void)broadcastManager:(GSBroadcastManager *)manager didSetStatus:(GSBroadcastStatus)status{
     
@@ -877,18 +988,24 @@
             NSLog(@"1");
             [self.btnPlay setTitle:@"直播中" forState:UIControlStateNormal];
             [self.btnPlay setBackgroundColor:[UIColor redColor]];
+            [self.btnPlay.layer setBorderWidth:0];
+            self.btnPlay.layer.borderColor=[UIColor whiteColor].CGColor;
             self.btnPlay.tag =1;
             break;
         case GSBroadcastStatusStop:
             NSLog(@"2");
-            [self.btnPlay setTitle:@"已停止" forState:UIControlStateNormal];
+            [self.btnPlay setTitle:@"直播停止" forState:UIControlStateNormal];
             [self.btnPlay setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
+            [self.btnPlay.layer setBorderWidth:1];
+            self.btnPlay.layer.borderColor=[UIColor whiteColor].CGColor;
             self.btnPlay.tag =2;
             break;
         case GSBroadcastStatusPause:
             NSLog(@"3");
-            [self.btnPlay setTitle:@"已暂停" forState:UIControlStateNormal];
+            [self.btnPlay setTitle:@"直播暂停" forState:UIControlStateNormal];
             [self.btnPlay setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
+            [self.btnPlay.layer setBorderWidth:1];
+            self.btnPlay.layer.borderColor=[UIColor whiteColor].CGColor;
             self.btnPlay.tag =3;
             break;
         default:
@@ -901,18 +1018,24 @@
             NSLog(@"1");
             [self.btnRecording setTitle:@"录制中" forState:UIControlStateNormal];
             [self.btnRecording setBackgroundColor:[UIColor redColor]];
+            [self.btnPlay.layer setBorderWidth:0];
+            self.btnPlay.layer.borderColor=[UIColor whiteColor].CGColor;
             self.btnRecording.tag =1;
             break;
         case GSBroadcastStatusStop:
             NSLog(@"2");
-            [self.btnRecording setTitle:@"已停止" forState:UIControlStateNormal];
+            [self.btnRecording setTitle:@"录制停止" forState:UIControlStateNormal];
             [self.btnRecording setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
+            [self.btnPlay.layer setBorderWidth:1];
+            self.btnPlay.layer.borderColor=[UIColor whiteColor].CGColor;
             self.btnRecording.tag =2;
             break;
         case GSBroadcastStatusPause:
             NSLog(@"3");
-            [self.btnRecording setTitle:@"已暂停" forState:UIControlStateNormal];
+            [self.btnRecording setTitle:@"录制暂停" forState:UIControlStateNormal];
             [self.btnRecording setBackgroundColor:[UIColor colorWithWhite:0.03f alpha:0.03f]];
+            [self.btnPlay.layer setBorderWidth:1];
+            self.btnPlay.layer.borderColor=[UIColor whiteColor].CGColor;
             self.btnRecording.tag =3;
             break;
         default:
@@ -956,45 +1079,6 @@
     
 }
 
-//手势识别
-- (void)handleVideoViewTap:(UITapGestureRecognizer*)recognizer
-{
-    
-    if(statusTapScreen)
-    {
-        [self btnsHide];
-        statusTapScreen=false;
-    }else{
-        [self btnsShow];
-        statusTapScreen=true;
-    }
-}
-
-//
--(void)handleDocViewTap:(UISwipeGestureRecognizer*)recognizer
-{
-    if(recognizer.direction ==UISwipeGestureRecognizerDirectionLeft)
-    {
-        unsigned int p =_globalPageID-1;
-        [self.broadcastManager publishDocGotoPage:_globaldocument.docID pageId:p sync2other:YES];
-        NSLog(@"左滑动");
-    }
-    if(recognizer.direction ==UISwipeGestureRecognizerDirectionRight)
-    {
-        unsigned int p =_globalPageID+1;
-        [self.broadcastManager publishDocGotoPage:_globaldocument.docID pageId:p sync2other:YES];
-        NSLog(@"右滑动");
-    }
-}
-
-- (void)handleVideoViewSwipe:(UISwipeGestureRecognizer*)recognizer
-{
-    [self btnsHide];
-}
-
-#pragma mark-
-#pragma mark GSBroadcastManagerDelegate
-
 // 直播初始化代理
 - (void)broadcastManager:(GSBroadcastManager*)manager didReceiveBroadcastConnectResult:(GSBroadcastConnectResult)result
 {
@@ -1003,10 +1087,6 @@
             
             // 直播初始化成功，加入直播
             if (![self.broadcastManager join]) {
-                
-//                [self.progressHUD hide:YES];
-//                UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:  NSLocalizedString(@"BroadcastConnectionError",  @"直播连接失败提示") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",  @"确认") otherButtonTitles:nil, nil];
-//                [alertView show];
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                 
                 // Configure for text only and offset down
@@ -1020,7 +1100,7 @@
                 
                 // Configure for text only and offset down
                 hud.mode = MBProgressHUDModeText;
-                hud.labelText = @"加入房间成功";
+                hud.labelText = @"正在加入房间...";
                 hud.margin = 10.f;
                 hud.removeFromSuperViewOnHide = YES;
                 
@@ -1100,9 +1180,6 @@
 // 断线重连
 - (void)broadcastManagerWillStartRoomReconnect:(GSBroadcastManager*)manager
 {
-    //    [self.progressHUD show:YES];
-    //    self.progressHUD.labelText = NSLocalizedString(@"Reconnect", @"正在重连");
-    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     // Configure for text only and offset down
@@ -1130,14 +1207,41 @@
 // 文档打开代理
 - (void)broadcastManager:(GSBroadcastManager *)manager didOpenDocument:(GSDocument *)doc
 {
-    [_docArr addObject:doc];
-    _globaldocument = doc;
+    bool isexist = false;
+    
+    for(int i=0;i<_docArr.count;i++)
+    {
+        unsigned docID = [[_docArr[i] valueForKey:@"docID"] unsignedIntValue];
+        if(docID==doc.docID)
+        {
+            isexist =true;
+            break;
+        }
+    }
+    
+    if(!isexist)
+    {
+        [_docArr addObject:doc];
+        [self.docTable reloadData];
+    }
+
+    [self.broadcastManager publishDocGotoPage:doc.docID pageId:0 sync2other:YES];
 }
 
 // 文档关闭代理
 - (void)broadcastManager:(GSBroadcastManager *)manager didCloseDocument:(unsigned int)docID
 {
-    
+    //int a= 1;
+    for (int i = 0; i < _docArr.count; i++) {
+        
+        //处理数组中数据
+        if(docID==[[_docArr[i] valueForKey:@"docID"] intValue])
+        {
+            [_docArr removeObjectAtIndex:i];
+        }
+        
+    }
+    [self.docTable reloadData];
 }
 
 // 文档切换代理
@@ -1145,11 +1249,6 @@
 {
     _globalPageID = pageID;
 }
-
-
-
-#pragma mark -
-#pragma mark GSBroadcastQaDelegate
 
 // 问答模块连接代理
 - (void)broadcastManager:(GSBroadcastManager*)broadcastManager didReceiveQaModuleInitResult:(BOOL)result
@@ -1172,15 +1271,11 @@
             if ([self.questionArray containsObject:question.questionID]) {
                 
                 [self.questionsDic setObject:question forKey:question.questionID];
-                NSUInteger index = [_questionArray indexOfObject:question.questionID];
-                
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:question.answers.count - 1 inSection:index];
-                NSMutableArray *indexPaths = [NSMutableArray array];
-                [indexPaths addObject:indexPath];
-                [self.questionTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-                
             }
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.questionTable reloadData];
+                [self.btnQuestion setImage:[UIImage imageNamed:@"chat_new.png"] forState:UIControlStateNormal];
+            });
         }
             
             break;
@@ -1193,31 +1288,25 @@
                 
                 [_questionArray addObject:question.questionID];
                 
-                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:self.questionArray.count - 1];
-                //NSLog(@"iOSDemo: insertSection: %d", self.questionArray.count - 1);
-                [self.questionTable insertSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-                
             }
             
+            //通知主线程刷新
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //回调或者说是通知主线程刷新，
+                [self.questionTable reloadData];
+                self.btnQuestion.tag =1;
+                [self.btnQuestion setImage:[UIImage imageNamed:@"chat_new.png"] forState:UIControlStateNormal];
+            });
         }
             break;
             
             
         case GSQaStatusQuestionCancelPublish:
         {
-            
             [self.questionsDic removeObjectForKey:question.questionID];
-            
             if ([self.questionArray containsObject:question.questionID]) {
-                
                 NSUInteger index = [self.questionArray indexOfObject:question.questionID];
-                
                 [self.questionArray removeObjectAtIndex:index];
-                
-                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:index];
-                
-                [self.questionTable deleteSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-                
             }
         }
             
@@ -1225,53 +1314,26 @@
             
         case GSQaStatusNewQuestion:
         {
-            // 如果是自己提的问题，可以看到，如果是别人提的问题，要发布了才能看到
-            if (question.ownerID == self.userID) {
-                
-                [self.questionsDic setObject:question forKey:question.questionID];
-                
-                if (![_questionArray containsObject:question.questionID]) {
-                    
-                    [_questionArray addObject:question.questionID];
-                    
-                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:self.questionArray.count - 1];
-                    //NSLog(@"iOSDemo: insertSection: %d", self.questionArray.count - 1);
-                    [self.questionTable insertSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-                    
-                }
+            [self.questionsDic setObject:question forKey:question.questionID];
+            if (![_questionArray containsObject:question.questionID]) {
+                [_questionArray addObject:question.questionID];
             }
+            
+            //通知主线程刷新
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //回调或者说是通知主线程刷新，
+                [self.questionTable reloadData];
+                self.btnQuestion.tag =1;
+            });
         }
             break;
-            
-            
-            
-            
         default:
             break;
     }
 }
-
-
-
-#pragma mark -
-#pragma mark GSBroadcastVideoDelegate
-// 收到一路视频
+//收到一路视频
 - (void)broadcastManager:(GSBroadcastManager*)manager didUserJoinVideo:(GSUserInfo *)userInfo
 {
-    //    // 收到插播视频
-    //    if (userInfo.userID == LOD_USER_ID) {
-    //
-    //        // 如果正在播放摄像头视频
-    //        if (self.isCameraVideoDisplaying)
-    //        {
-    //            // 停止播放摄像头视频
-    //            [self.broadcastManager undisplayVideo:self.userID ];
-    //        }
-    //        // 显示插播视频
-    //        [self.broadcastManager displayVideo:userInfo.userID];
-    //
-    //        self.userID = LOD_USER_ID;
-    //    }
     //3
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -1282,8 +1344,11 @@
     hud.removeFromSuperViewOnHide = YES;
     
     [hud hide:YES afterDelay:3];
-    [self.broadcastManager displayVideo:userInfo.userID];
-    [self.broadcastManager setVideo:userInfo.userID active:YES];
+    if(userInfo.isOrganizer==YES)
+    {
+        [self.broadcastManager displayVideo:userInfo.userID];
+        [self.broadcastManager setVideo:userInfo.userID active:YES];
+    }
 }
 
 // 某一路摄像头视频被激活
@@ -1317,6 +1382,12 @@
     {
         self.isCameraVideoDisplaying = YES;
     }
+    
+    //11-17
+    if(userInfo.userID == self.userID)
+    {
+        
+    }
 }
 
 // 某一路视频关闭播放代理
@@ -1338,9 +1409,6 @@
     [_videoViewOnline renderVideoFrame:videoFrame];
     //6
 }
-
-#pragma mark -
-#pragma mark GSBroadcastDesktopShareDelegate
 
 // 桌面共享视频连接代理
 - (void)broadcastManager:(GSBroadcastManager*)manager didReceiveDesktopShareModuleInitResult:(BOOL)result;
@@ -1405,6 +1473,7 @@
 
 - (void)setUpPreview
 {
+    //本地照相机视频流
     //5
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -1423,8 +1492,8 @@
     if (version < 7.0) {
         y -= 64;
     }
-    
-    _originalVideoFrame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+    int a = self.view.frame.size.height-15-150;
+    _originalVideoFrame = CGRectMake(15,a, 200, 150);
     self.videoView = [[GSVideoView alloc]initWithFrame:_originalVideoFrame];
     
     
@@ -1433,14 +1502,11 @@
     [[_previewLayer connection] setVideoOrientation:AVCaptureVideoOrientationLandscapeRight]; // 设置视频的朝向
     
     _previewLayer.frame = _originalVideoFrame;
+    
+
     [self.view.layer addSublayer:_previewLayer];
-    [self.view bringSubviewToFront:_videoViewOnline];
     [self.view bringSubviewToFront:_toolBar];
 }
-
-
-#pragma mark -
-#pragma mark GSBroadcastAudioDelegate
 
 // 音频模块连接代理
 - (void)broadcastManager:(GSBroadcastManager*)manager didReceiveAudioModuleInitResult:(BOOL)result
@@ -1460,11 +1526,32 @@
  */
 - (void)broadcastManager:(GSBroadcastManager*)manager didReceiveOtherUser:(GSUserInfo*)userInfo
 {
-    userInfo.isCameraOpen = true;
-    userInfo.isMicrophoneOpen = true;
-    [_membersArr addObject:userInfo];
-    _labelCount.text =[NSString stringWithFormat:@"%lu人在线",(unsigned long)[_membersArr count]];
-    NSLog(@"other");
+//    bool isexist = false;
+//
+//        for(int i=0;i<_membersArr.count;i++)
+//        {
+//            LONGLONG uid = [[_membersArr[i] valueForKey:@"userID"] longLongValue];
+//            if(uid==userInfo.userID)
+//            {
+//                isexist =true;
+//                break;
+//            }
+//        }
+//    
+//    if(!isexist)
+//    {
+//        [_membersArr addObject:userInfo];
+//    }
+//    
+//    _labelCount.text =[NSString stringWithFormat:@"%lu人在线",(unsigned long)[_membersArr count]];
+    
+    NSString *uid =[NSString stringWithFormat:@"%lld",userInfo.userID];
+    [self.membersDic setObject:userInfo forKey: uid];
+    
+    if (![_questionArray containsObject:uid]) {
+        
+        [_questionArray addObject:uid];
+    }
 }
 
 
@@ -1478,16 +1565,19 @@
 - (void)broadcastManager:(GSBroadcastManager*)manager didLoseOtherUser:(long long)userID
 {
     NSLog(@"didLoseOtherUser");
+    
+    for(int i=0;i<=_membersArr.count;i++)
+    {
+        LONGLONG uid = [[_membersArr[i] valueForKey:@"userID"] longLongValue];
+        if(uid==userID)
+        {
+            [_membersArr removeObjectAtIndex:i];
+            _labelCount.text =[NSString stringWithFormat:@"%lu人在线",(unsigned long)[_membersArr count]];
+            NSLog(@"sdf");
+        }
+    }
 }
 
-
-#pragma mark -
-#pragma mark System Default Code
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)dealloc
 {
@@ -1497,15 +1587,14 @@
     [self.broadcastManager invalidate];
     
 }
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
+#pragma mark -
+#pragma mark System Default Code
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 
 @end

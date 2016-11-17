@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		797B5B71DA0D4D05C73C4AB2 /* libPods-SeerseeJoin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF772F10A8E8CB09D0B45742 /* libPods-SeerseeJoin.a */; };
 		B50073561D9004A900984CBA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50073551D9004A900984CBA /* UIKit.framework */; };
+		B506B32E1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B506B32D1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m */; };
 		B50BF50A1DB5C46C00A79380 /* MemberBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B50BF5091DB5C46C00A79380 /* MemberBase.m */; };
 		B50C89871D88D374005CCF4C /* CourseCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B50C89861D88D374005CCF4C /* CourseCellTableViewCell.m */; };
 		B519934D1D8E85B700CE8904 /* BroadcastHYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B519934C1D8E85B700CE8904 /* BroadcastHYViewController.m */; };
@@ -41,6 +42,8 @@
 		B54BD8E21DB89C10000CBE52 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54BD8E11DB89C10000CBE52 /* Security.framework */; };
 		B54BD8E41DB8A84A000CBE52 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54BD8E31DB8A84A000CBE52 /* AdSupport.framework */; };
 		B54BD8E61DB8AED8000CBE52 /* JpushTabBarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B54BD8E51DB8AED8000CBE52 /* JpushTabBarViewController.xib */; };
+		B556E9351DD45C3B00A04C8B /* GGPublicNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B556E9341DD45C3B00A04C8B /* GGPublicNavigationViewController.m */; };
+		B55A0BA41DCC5BA70000A2DA /* aboutus.png in Resources */ = {isa = PBXBuildFile; fileRef = B55A0BA31DCC5BA70000A2DA /* aboutus.png */; };
 		B56306131D936A8B0070A34F /* SingleVideoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56306121D936A8B0070A34F /* SingleVideoItemViewController.m */; };
 		B56306161D93D3760070A34F /* CourseTableHYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56306151D93D3760070A34F /* CourseTableHYViewController.m */; };
 		B563063E1D93DC360070A34F /* ask.png in Resources */ = {isa = PBXBuildFile; fileRef = B56306171D93DC360070A34F /* ask.png */; };
@@ -85,6 +88,7 @@
 		B56306671D93E1D60070A34F /* CourseTablePXViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56306661D93E1D60070A34F /* CourseTablePXViewController.m */; };
 		B579D2131DC1BAFD00B3ECE9 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B579D2121DC1BAFD00B3ECE9 /* UserNotifications.framework */; };
 		B59C279D1D7D5068000E66D5 /* RtSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59C279C1D7D5068000E66D5 /* RtSDK.framework */; };
+		B59EC2231DD5B33E007DC83D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59EC2221DD5B33E007DC83D /* MessageUI.framework */; };
 		B5C425931D8F6EBD00F09F96 /* ChoiceCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C425921D8F6EBD00F09F96 /* ChoiceCenterViewController.m */; };
 		B5C425961D8F8BC100F09F96 /* BroadcastPXViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C425951D8F8BC100F09F96 /* BroadcastPXViewController.m */; };
 		B5DAFAA71DAE179300409671 /* membersTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5DAFAA61DAE179300409671 /* membersTableViewCell.m */; };
@@ -130,6 +134,8 @@
 		B500734F1D9001CC00984CBA /* libMBProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMBProgressHUD.a; path = "../../../Library/Developer/Xcode/DerivedData/SeerseeJoin-aboksixjsnywqwdcjqkzyywlywiv/Build/Products/Debug-iphoneos/MBProgressHUD/libMBProgressHUD.a"; sourceTree = "<group>"; };
 		B50073501D9001CC00984CBA /* libOAuthConsumer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthConsumer.a; path = "../../../Library/Developer/Xcode/DerivedData/SeerseeJoin-aboksixjsnywqwdcjqkzyywlywiv/Build/Products/Debug-iphoneos/OAuthConsumer/libOAuthConsumer.a"; sourceTree = "<group>"; };
 		B50073551D9004A900984CBA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B506B32C1DDBFF6D009CEAD0 /* BroadcastWEBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BroadcastWEBViewController.h; sourceTree = "<group>"; };
+		B506B32D1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BroadcastWEBViewController.m; sourceTree = "<group>"; };
 		B50BF5081DB5C46C00A79380 /* MemberBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberBase.h; sourceTree = "<group>"; };
 		B50BF5091DB5C46C00A79380 /* MemberBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberBase.m; sourceTree = "<group>"; };
 		B50C89851D88D374005CCF4C /* CourseCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseCellTableViewCell.h; sourceTree = "<group>"; };
@@ -170,6 +176,9 @@
 		B54BD8E11DB89C10000CBE52 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B54BD8E31DB8A84A000CBE52 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		B54BD8E51DB8AED8000CBE52 /* JpushTabBarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = JpushTabBarViewController.xib; path = "JPush-iOS-SDK-2.1.9/demo/PushTest/JpushTabBarViewController.xib"; sourceTree = SOURCE_ROOT; };
+		B556E9331DD45C3B00A04C8B /* GGPublicNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGPublicNavigationViewController.h; sourceTree = "<group>"; };
+		B556E9341DD45C3B00A04C8B /* GGPublicNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGPublicNavigationViewController.m; sourceTree = "<group>"; };
+		B55A0BA31DCC5BA70000A2DA /* aboutus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = aboutus.png; path = image/aboutus.png; sourceTree = "<group>"; };
 		B56306111D936A8B0070A34F /* SingleVideoItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleVideoItemViewController.h; sourceTree = "<group>"; };
 		B56306121D936A8B0070A34F /* SingleVideoItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleVideoItemViewController.m; sourceTree = "<group>"; };
 		B56306141D93D3760070A34F /* CourseTableHYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableHYViewController.h; sourceTree = "<group>"; };
@@ -220,6 +229,7 @@
 		B59C279E1D7D535E000E66D5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B59C27A01D7D5367000E66D5 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		B59C27A21D7D5375000E66D5 /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		B59EC2221DD5B33E007DC83D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		B5C425911D8F6EBD00F09F96 /* ChoiceCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceCenterViewController.h; sourceTree = "<group>"; };
 		B5C425921D8F6EBD00F09F96 /* ChoiceCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceCenterViewController.m; sourceTree = "<group>"; };
 		B5C425941D8F8BC100F09F96 /* BroadcastPXViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BroadcastPXViewController.h; sourceTree = "<group>"; };
@@ -277,6 +287,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54BD8DC1DB89BD5000CBE52 /* SystemConfiguration.framework in Frameworks */,
+				B59EC2231DD5B33E007DC83D /* MessageUI.framework in Frameworks */,
 				B579D2131DC1BAFD00B3ECE9 /* UserNotifications.framework in Frameworks */,
 				B5F7B5591DBDB23000936177 /* OpenAL.framework in Frameworks */,
 				B5F7B54E1DBD9FE500936177 /* VodSDK.framework in Frameworks */,
@@ -285,7 +297,6 @@
 				B50073561D9004A900984CBA /* UIKit.framework in Frameworks */,
 				B54BD8E01DB89BF2000CBE52 /* Foundation.framework in Frameworks */,
 				B54BD8DE1DB89BE0000CBE52 /* CoreGraphics.framework in Frameworks */,
-				B54BD8DC1DB89BD5000CBE52 /* SystemConfiguration.framework in Frameworks */,
 				B54BD8DA1DB89BCB000CBE52 /* CoreTelephony.framework in Frameworks */,
 				B54BD8D81DB89BBF000CBE52 /* CoreFoundation.framework in Frameworks */,
 				B54BD8D61DB89BB2000CBE52 /* CFNetwork.framework in Frameworks */,
@@ -317,6 +328,7 @@
 		AB6647AD7A28FF29506EDAD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B59EC2221DD5B33E007DC83D /* MessageUI.framework */,
 				B579D2121DC1BAFD00B3ECE9 /* UserNotifications.framework */,
 				B5F7B5581DBDB23000936177 /* OpenAL.framework */,
 				B5F7B54D1DBD9FE500936177 /* VodSDK.framework */,
@@ -354,6 +366,7 @@
 		B50C89881D89244A005CCF4C /* image */ = {
 			isa = PBXGroup;
 			children = (
+				B55A0BA31DCC5BA70000A2DA /* aboutus.png */,
 				B5E117D31DC1F2BD00A2529A /* WechatIMG1.jpeg */,
 				B5373F3F1DBA098B0075AB6C /* bg.jpg */,
 				B5373F401DBA098B0075AB6C /* chat_new.png */,
@@ -490,6 +503,8 @@
 				B519934C1D8E85B700CE8904 /* BroadcastHYViewController.m */,
 				B5C425941D8F8BC100F09F96 /* BroadcastPXViewController.h */,
 				B5C425951D8F8BC100F09F96 /* BroadcastPXViewController.m */,
+				B506B32C1DDBFF6D009CEAD0 /* BroadcastWEBViewController.h */,
+				B506B32D1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m */,
 				B5E92ED61D91433600E7D088 /* MemberCenterViewController.h */,
 				B5E92ED71D91433600E7D088 /* MemberCenterViewController.m */,
 				B56306111D936A8B0070A34F /* SingleVideoItemViewController.h */,
@@ -506,6 +521,8 @@
 				B5F7B5561DBDA89100936177 /* DownLoadViewController.m */,
 				B5F7B5521DBDA15200936177 /* SpeedSettingViewController.h */,
 				B5F7B5531DBDA15200936177 /* SpeedSettingViewController.m */,
+				B556E9331DD45C3B00A04C8B /* GGPublicNavigationViewController.h */,
+				B556E9341DD45C3B00A04C8B /* GGPublicNavigationViewController.m */,
 			);
 			path = SeerseeJoin;
 			sourceTree = "<group>";
@@ -625,6 +642,7 @@
 				B563064C1D93DC360070A34F /* mic1.png in Resources */,
 				B56306621D93DC360070A34F /* trainning.png in Resources */,
 				B56306571D93DC360070A34F /* roll.png in Resources */,
+				B55A0BA41DCC5BA70000A2DA /* aboutus.png in Resources */,
 				B5373F591DBA098B0075AB6C /* replay.png in Resources */,
 				B56306601D93DC360070A34F /* take.jpg in Resources */,
 				B56306471D93DC360070A34F /* face.png in Resources */,
@@ -702,6 +720,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B50C89871D88D374005CCF4C /* CourseCellTableViewCell.m in Sources */,
+				B506B32E1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m in Sources */,
 				B5EE3BBF1DB7267500FFD27B /* QuestionTableViewCell.m in Sources */,
 				B5C425931D8F6EBD00F09F96 /* ChoiceCenterViewController.m in Sources */,
 				B5F7B5541DBDA15200936177 /* SpeedSettingViewController.m in Sources */,
@@ -729,6 +748,7 @@
 				B5E92ED81D91433600E7D088 /* MemberCenterViewController.m in Sources */,
 				B5E79D571DC5C509004F9268 /* CourseAddViewController.m in Sources */,
 				B5EDAF881D950493009F75D3 /* AppConfig.m in Sources */,
+				B556E9351DD45C3B00A04C8B /* GGPublicNavigationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,7 +812,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -832,7 +852,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -862,7 +882,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ShareManager\"",
 				);
 				INFOPLIST_FILE = SeerseeJoin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -875,6 +895,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.seersee.seerseelive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -900,7 +921,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ShareManager\"",
 				);
 				INFOPLIST_FILE = SeerseeJoin/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -913,6 +934,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.seersee.seerseelive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

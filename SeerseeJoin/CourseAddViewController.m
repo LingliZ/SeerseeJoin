@@ -159,7 +159,6 @@
     
     //创建源类型
     UIImagePickerControllerSourceType mySourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
     myPicker.sourceType = mySourceType;
     
     //设置代理
@@ -291,7 +290,7 @@
                  //[self presentViewController:controller animated:YES completion:nil];
              }else{
                  //登录失败
-                 NSString *errorcode = [responseObject objectForKey:@"code"];
+                 //NSString *errorcode = [responseObject objectForKey:@"code"];
                  UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"WrongConnectInfo", [@"用户名密码有误：" stringByAppendingString:errorcode]) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"知道了") otherButtonTitles:nil, nil];
                  [alertView show];
                  
@@ -301,6 +300,17 @@
          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
              NSLog(@"%@",error);  //这里打印错误信息
          }];
+}
+
+-(BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
 }
 
 
