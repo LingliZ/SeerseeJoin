@@ -10,4 +10,5 @@
 
 @interface AppConfig : NSObject
 +(NSString*)websiteurl;
++(NSString*)websiteurl2;
 @end

@@ -58,7 +58,7 @@
                   moduleName = "SeerseeJoin"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Mr.Hawaii/ios/Seersee/SeerseeJoin/SeerseeJoin/CourseAddViewController.m"
-                  timestampString = "501038843.673287"
+                  timestampString = "501561863.290309"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "238"
@@ -73,7 +73,7 @@
                   moduleName = "SeerseeJoin"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Mr.Hawaii/ios/Seersee/SeerseeJoin/SeerseeJoin/CourseAddViewController.m"
-                  timestampString = "501038843.674562"
+                  timestampString = "501561863.291729"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "238"
@@ -88,7 +88,7 @@
                   moduleName = "SeerseeJoin"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Mr.Hawaii/ios/Seersee/SeerseeJoin/SeerseeJoin/CourseAddViewController.m"
-                  timestampString = "501038843.675878"
+                  timestampString = "501561863.293029"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "238"
@@ -103,7 +103,7 @@
                   moduleName = "SeerseeJoin"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Mr.Hawaii/ios/Seersee/SeerseeJoin/SeerseeJoin/CourseAddViewController.m"
-                  timestampString = "501038843.677131"
+                  timestampString = "501561863.294829"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "240"
@@ -200,11 +200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SeerseeJoin/AppDelegate.mm"
-            timestampString = "500543181.415352"
+            timestampString = "501146405.870635"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "314"
-            endingLineNumber = "314"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "-application:didReceiveRemoteNotification:"
             landmarkType = "7">
          </BreakpointContent>
@@ -216,11 +216,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SeerseeJoin/AppDelegate.mm"
-            timestampString = "500543181.415352"
+            timestampString = "501146405.870635"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "-application:didReceiveRemoteNotification:fetchCompletionHandler:"
             landmarkType = "7">
          </BreakpointContent>
@@ -232,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SeerseeJoin/BroadcastPXViewController.m"
-            timestampString = "501037275.51284"
+            timestampString = "501158414.59406"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "380"
-            endingLineNumber = "380"
+            startingLineNumber = "400"
+            endingLineNumber = "400"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -279,70 +279,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SeerseeJoin/AppDelegate.mm"
-            timestampString = "500543181.415352"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "-application:openURL:options:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SeerseeJoin/AppDelegate.mm"
-            timestampString = "500543181.415352"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
-            landmarkName = "-application:openURL:options:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[AppDelegate application:openURL:options:]"
-                  moduleName = "SeerseeJoin"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Mr.Hawaii/ios/Seersee/SeerseeJoin/SeerseeJoin/AppDelegate.mm"
-                  timestampString = "501038843.704515"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "241"
-                  endingLineNumber = "241"
-                  offsetFromSymbolStart = "260">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[AppDelegate application:openURL:options:]"
-                  moduleName = "SeerseeJoin"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Mr.Hawaii/ios/Seersee/SeerseeJoin/SeerseeJoin/AppDelegate.mm"
-                  timestampString = "501038843.705879"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "241"
-                  endingLineNumber = "241"
-                  offsetFromSymbolStart = "320">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "SeerseeJoin/CourseEditViewController.m"
             timestampString = "500890603.267299"
             startingColumnNumber = "9223372036854775807"
@@ -360,12 +296,26 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SeerseeJoin/BroadcastPXViewController.m"
-            timestampString = "501038799.714555"
+            timestampString = "501561863.040965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1390"
-            endingLineNumber = "1390"
-            landmarkName = "-broadcastManager:didUndisplayVideo:"
+            startingLineNumber = "1739"
+            endingLineNumber = "1739">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SeerseeJoin/BroadcastPXViewController.m"
+            timestampString = "501158414.59406"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "480"
+            endingLineNumber = "480"
+            landmarkName = "-handMicUser:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -376,11 +326,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SeerseeJoin/BroadcastPXViewController.m"
-            timestampString = "501040286.80127"
+            timestampString = "501561863.040965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1588"
-            endingLineNumber = "1588">
+            startingLineNumber = "1616"
+            endingLineNumber = "1616"
+            landmarkName = "-broadcastManager:didReceiveAudioModuleInitResult:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -390,12 +342,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SeerseeJoin/BroadcastPXViewController.m"
-            timestampString = "501040287.55331"
+            timestampString = "501561863.040965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1373"
-            endingLineNumber = "1373"
-            landmarkName = "-broadcastManager:didDisplayVideo:"
+            startingLineNumber = "1079"
+            endingLineNumber = "1079"
+            landmarkName = "-broadcastManager:didSetupCustomBitRate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SeerseeJoin/BroadcastPXViewController.m"
+            timestampString = "501561901.695456"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1072"
+            endingLineNumber = "1072"
+            landmarkName = "-broadcastManager:querySettingsInfoKey:numberValue:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SeerseeJoin/BroadcastPXViewController.m"
+            timestampString = "501561902.135395"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1074"
+            endingLineNumber = "1074"
+            landmarkName = "-broadcastManager:querySettingsInfoKey:numberValue:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -12,7 +12,8 @@
 #import "MemberCenterViewController.h"
 #import "JPUSHService.h"
 #import <AdSupport/ASIdentifierManager.h>
-
+#import "VisitorLoginViewController.h"
+#import "GGPublicNavigationViewController.h"
 //
 #import <KSCrash/KSCrash.h> // TODO: Remove this
 #import <KSCrash/KSCrashInstallation+Alert.h>
@@ -31,7 +32,7 @@
 @end
 
 @implementation AppDelegate{
-    MemberCenterViewController *MemberCenterViewController;
+    
 }
 
 
@@ -45,6 +46,7 @@
     
     //KSCrash
     [self installCrashHandler];
+    
     return YES;
 }
 
@@ -228,17 +230,29 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    if ([[url scheme] isEqual:@"seerseeios"]) {
+        NSString *strurl = [url absoluteString];
+        NSString *rid = [strurl stringByReplacingOccurrencesOfString:@"seerseeios://meetinglogin?id=" withString:@""];
+        
+        UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        VisitorLoginViewController *controller = [board instantiateViewControllerWithIdentifier:@"VisitorLoginViewController"];
+        controller.rid = rid;
+        
+        GGPublicNavigationViewController *_nav = (GGPublicNavigationViewController*) (self.window.rootViewController);
+        [_nav pushViewController:controller animated:YES];
+        return YES;
+    }
     return [[ShareManager sharedManager] handleOpenURL:url];
 }
 
--(BOOL)application:(UIApplication*)app openURL:(NSURL*)url options:(NSDictionary<NSString*,id>*)options{
-    //="[scheme]://[host]/[path]?[query]"
-    if (url) {
-        UIAlertView *alertView = [[ UIAlertView alloc] initWithTitle:nil message:@"你唤醒了您的应用" delegate:self cancelButtonTitle:@"确定" otherButtonTitles : nil , nil ];
-        [alertView show];
-    }
-    return YES ;
-}
+//-(BOOL)application:(UIApplication*)app openURL:(NSURL*)url options:(NSDictionary<NSString*,id>*)options{
+//    //seerseeios://meetinglogin?id=10094
+//    //="[scheme]://[host]/[path]?[query]"
+////    NSString *u =[url host];
+////    NSString *u1 =[url scheme];
+//
+//    return YES ;
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -248,6 +262,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -256,6 +271,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

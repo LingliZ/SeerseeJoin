@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		797B5B71DA0D4D05C73C4AB2 /* libPods-SeerseeJoin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF772F10A8E8CB09D0B45742 /* libPods-SeerseeJoin.a */; };
 		B50073561D9004A900984CBA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50073551D9004A900984CBA /* UIKit.framework */; };
-		B506B32E1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B506B32D1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m */; };
 		B50BF50A1DB5C46C00A79380 /* MemberBase.m in Sources */ = {isa = PBXBuildFile; fileRef = B50BF5091DB5C46C00A79380 /* MemberBase.m */; };
 		B50C89871D88D374005CCF4C /* CourseCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B50C89861D88D374005CCF4C /* CourseCellTableViewCell.m */; };
+		B51880A71DDEA17900679E4A /* BroadcastHYVisitorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B51880A61DDEA17900679E4A /* BroadcastHYVisitorViewController.m */; };
+		B51880AA1DDEA1A100679E4A /* VisitorLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B51880A91DDEA1A100679E4A /* VisitorLoginViewController.m */; };
 		B519934D1D8E85B700CE8904 /* BroadcastHYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B519934C1D8E85B700CE8904 /* BroadcastHYViewController.m */; };
 		B51C38B31D9E59B100C0A1B8 /* member.m in Sources */ = {isa = PBXBuildFile; fileRef = B51C38B21D9E59B100C0A1B8 /* member.m */; };
 		B51EBDD51DA8DF8900164141 /* testViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B51EBDD41DA8DF8900164141 /* testViewController.m */; };
+		B5246C561DE3EDD000942266 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = B5246C551DE3EDD000942266 /* Common.m */; };
 		B5373F381DB9BADE0075AB6C /* RecordingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5373F371DB9BADE0075AB6C /* RecordingTableViewController.m */; };
 		B5373F3E1DB9C0B20075AB6C /* RecordingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5373F3D1DB9C0B20075AB6C /* RecordingTableViewCell.m */; };
 		B5373F4E1DBA098B0075AB6C /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B5373F3F1DBA098B0075AB6C /* bg.jpg */; };
@@ -134,18 +136,22 @@
 		B500734F1D9001CC00984CBA /* libMBProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMBProgressHUD.a; path = "../../../Library/Developer/Xcode/DerivedData/SeerseeJoin-aboksixjsnywqwdcjqkzyywlywiv/Build/Products/Debug-iphoneos/MBProgressHUD/libMBProgressHUD.a"; sourceTree = "<group>"; };
 		B50073501D9001CC00984CBA /* libOAuthConsumer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOAuthConsumer.a; path = "../../../Library/Developer/Xcode/DerivedData/SeerseeJoin-aboksixjsnywqwdcjqkzyywlywiv/Build/Products/Debug-iphoneos/OAuthConsumer/libOAuthConsumer.a"; sourceTree = "<group>"; };
 		B50073551D9004A900984CBA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		B506B32C1DDBFF6D009CEAD0 /* BroadcastWEBViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BroadcastWEBViewController.h; sourceTree = "<group>"; };
-		B506B32D1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BroadcastWEBViewController.m; sourceTree = "<group>"; };
 		B50BF5081DB5C46C00A79380 /* MemberBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberBase.h; sourceTree = "<group>"; };
 		B50BF5091DB5C46C00A79380 /* MemberBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberBase.m; sourceTree = "<group>"; };
 		B50C89851D88D374005CCF4C /* CourseCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseCellTableViewCell.h; sourceTree = "<group>"; };
 		B50C89861D88D374005CCF4C /* CourseCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseCellTableViewCell.m; sourceTree = "<group>"; };
+		B51880A51DDEA17900679E4A /* BroadcastHYVisitorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BroadcastHYVisitorViewController.h; sourceTree = "<group>"; };
+		B51880A61DDEA17900679E4A /* BroadcastHYVisitorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BroadcastHYVisitorViewController.m; sourceTree = "<group>"; };
+		B51880A81DDEA1A100679E4A /* VisitorLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisitorLoginViewController.h; sourceTree = "<group>"; };
+		B51880A91DDEA1A100679E4A /* VisitorLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VisitorLoginViewController.m; sourceTree = "<group>"; };
 		B519934B1D8E85B700CE8904 /* BroadcastHYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BroadcastHYViewController.h; sourceTree = "<group>"; };
 		B519934C1D8E85B700CE8904 /* BroadcastHYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BroadcastHYViewController.m; sourceTree = "<group>"; };
 		B51C38B11D9E59B100C0A1B8 /* member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = member.h; sourceTree = "<group>"; };
 		B51C38B21D9E59B100C0A1B8 /* member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = member.m; sourceTree = "<group>"; };
 		B51EBDD31DA8DF8900164141 /* testViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testViewController.h; sourceTree = "<group>"; };
 		B51EBDD41DA8DF8900164141 /* testViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testViewController.m; sourceTree = "<group>"; };
+		B5246C541DE3EDD000942266 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		B5246C551DE3EDD000942266 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		B5373F361DB9BADE0075AB6C /* RecordingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingTableViewController.h; sourceTree = "<group>"; };
 		B5373F371DB9BADE0075AB6C /* RecordingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingTableViewController.m; sourceTree = "<group>"; };
 		B5373F3C1DB9C0B20075AB6C /* RecordingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingTableViewCell.h; sourceTree = "<group>"; };
@@ -426,6 +432,15 @@
 			name = image;
 			sourceTree = "<group>";
 		};
+		B5246C531DE3EDAE00942266 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B5246C541DE3EDD000942266 /* Common.h */,
+				B5246C551DE3EDD000942266 /* Common.m */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
 		B54BD8D11DB89B73000CBE52 /* Jpush */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				B5D8987E1DC7192F00FDB7DB /* SeerseeJoin.entitlements */,
+				B5246C531DE3EDAE00942266 /* Common */,
 				B54BD8D11DB89B73000CBE52 /* Jpush */,
 				B50C89881D89244A005CCF4C /* image */,
 				B5E222B21D7D6452003C662C /* BaseItemViewController.h */,
@@ -503,8 +519,10 @@
 				B519934C1D8E85B700CE8904 /* BroadcastHYViewController.m */,
 				B5C425941D8F8BC100F09F96 /* BroadcastPXViewController.h */,
 				B5C425951D8F8BC100F09F96 /* BroadcastPXViewController.m */,
-				B506B32C1DDBFF6D009CEAD0 /* BroadcastWEBViewController.h */,
-				B506B32D1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m */,
+				B51880A81DDEA1A100679E4A /* VisitorLoginViewController.h */,
+				B51880A91DDEA1A100679E4A /* VisitorLoginViewController.m */,
+				B51880A51DDEA17900679E4A /* BroadcastHYVisitorViewController.h */,
+				B51880A61DDEA17900679E4A /* BroadcastHYVisitorViewController.m */,
 				B5E92ED61D91433600E7D088 /* MemberCenterViewController.h */,
 				B5E92ED71D91433600E7D088 /* MemberCenterViewController.m */,
 				B56306111D936A8B0070A34F /* SingleVideoItemViewController.h */,
@@ -679,7 +697,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		918AA2CA13F55F5E83326C97 /* [CP] Embed Pods Frameworks */ = {
@@ -720,9 +738,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B50C89871D88D374005CCF4C /* CourseCellTableViewCell.m in Sources */,
-				B506B32E1DDBFF6D009CEAD0 /* BroadcastWEBViewController.m in Sources */,
 				B5EE3BBF1DB7267500FFD27B /* QuestionTableViewCell.m in Sources */,
+				B51880A71DDEA17900679E4A /* BroadcastHYVisitorViewController.m in Sources */,
 				B5C425931D8F6EBD00F09F96 /* ChoiceCenterViewController.m in Sources */,
+				B51880AA1DDEA1A100679E4A /* VisitorLoginViewController.m in Sources */,
 				B5F7B5541DBDA15200936177 /* SpeedSettingViewController.m in Sources */,
 				B5E222B91D7D6452003C662C /* LoginViewController.m in Sources */,
 				B5E222BA1D7D6452003C662C /* UserDefaults.m in Sources */,
@@ -730,6 +749,7 @@
 				B5C425961D8F8BC100F09F96 /* BroadcastPXViewController.m in Sources */,
 				B5F72E201D7FAF0E00F326DF /* ListViewController.m in Sources */,
 				B5F9DAF91D7D41430071D617 /* AppDelegate.mm in Sources */,
+				B5246C561DE3EDD000942266 /* Common.m in Sources */,
 				B56306161D93D3760070A34F /* CourseTableHYViewController.m in Sources */,
 				B56306671D93E1D60070A34F /* CourseTablePXViewController.m in Sources */,
 				B5E222B81D7D6452003C662C /* BaseItemViewController.m in Sources */,
@@ -867,6 +887,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SeerseeJoin/SeerseeJoin.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2J9CF33RNJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -892,9 +913,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.seersee.seerseelive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawaii.SeerseeJoin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -906,6 +928,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SeerseeJoin/SeerseeJoin.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2J9CF33RNJ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -931,9 +954,10 @@
 					"$(inherited)",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.seersee.seerseelive;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hawaii.SeerseeJoin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;

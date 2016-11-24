@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '32A82C1185144BBFBCC70F43AD8DF65F'
+               BlueprintIdentifier = '7EC493D913DF0476BC9991B2DB50B2EC'
                BlueprintName = 'SGHTTPRequest'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libSGHTTPRequest.a'>

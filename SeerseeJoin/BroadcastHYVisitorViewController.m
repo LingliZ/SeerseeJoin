@@ -6,7 +6,7 @@
 //  Copyright © 2016年 gensee. All rights reserved.
 //
 
-#import "BroadcastPXViewController.h"
+#import "BroadcastHYVisitorViewController.h"
 #import <RtSDK/RtSDK.h>
 #import <AVFoundation/AVFoundation.h>
 #import "AppDelegate.h"
@@ -18,7 +18,7 @@
 #import <NSString+Color.h>
 #import "KeyboardToolBar.h"
 
-@interface BroadcastPXViewController ()<GSBroadcastDelegate, GSBroadcastInvestigationDelegate, GSBroadcastVideoDelegate, GSBroadcastDesktopShareDelegate,GSBroadcastDocumentDelegate,UIActionSheetDelegate,UITableViewDataSource,UITableViewDelegate,GSBroadcastQaDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface BroadcastHYVisitorViewController ()<GSBroadcastDelegate, GSBroadcastInvestigationDelegate, GSBroadcastVideoDelegate, GSBroadcastDesktopShareDelegate,GSBroadcastDocumentDelegate,UIActionSheetDelegate,UITableViewDataSource,UITableViewDelegate,GSBroadcastQaDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     BOOL videoFullScreen; //视频全屏
     BOOL statusCamera;
@@ -81,7 +81,7 @@
 @property (strong, nonatomic) NSString *questionAnswering;
 @end
 
-@implementation BroadcastPXViewController
+@implementation BroadcastHYVisitorViewController
 {
     AVCaptureVideoPreviewLayer *_previewLayer;
 }
@@ -104,11 +104,7 @@
     self.btnSwitchDoc.layer.borderColor=[UIColor whiteColor].CGColor;
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"castname"]);
     self.labelTitle.text =[self.parameter objectForKey:@"castname"];
-    
-    
-
-    
-    }
+}
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -154,7 +150,7 @@
 
 - (void)setup
 {
-
+    
 }
 
 -(void)setupActionSheet{
@@ -190,8 +186,8 @@
     
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleDocViewTap:)];
     [self.videoViewDoc addGestureRecognizer:tapGes];
-
-  
+    
+    
     [self.view addSubview:self.videoViewDoc];
 }
 
@@ -279,29 +275,13 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     if([tableView isEqual:self.membersTable])
     {
         membersTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"membersCell" forIndexPath:indexPath];
         
         if(self.membersArr!=nil&&self.membersArr!=NULL)
         {
-//            NSObject *a = self.membersArr[indexPath.row];
-//            
-//            cell.mName.text =[a valueForKey:@"userName"];
-//            
-//            cell.btnMainVideo.tag = indexPath.row;
-//            [cell.btnMainVideo addTarget:self action:@selector(handMainVideoUser:) forControlEvents:UIControlEventTouchUpInside];
-//            
-//            cell.btnShotof.tag =indexPath.row;
-//            [cell.btnShotof setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:0.6]];//par1(0~1之间，从黑到白,alpha0~1  透明到不透明)
-//            [cell.btnShotof addTarget:self action:@selector(handShotOffUser:) forControlEvents:UIControlEventTouchUpInside];
-//            
-//            cell.btnMic.tag = indexPath.row;
-//            [cell.btnMic addTarget:self action:@selector(handMicUser:) forControlEvents:UIControlEventTouchUpInside];
-//            
-//            cell.btnCamera.tag = indexPath.row;
-//            [cell.btnCamera addTarget:self action:@selector(handCameraUser:) forControlEvents:UIControlEventTouchUpInside];
             NSString *uid = self.membersArr[indexPath.row];
             GSUserInfo *gsUserinfo = [_membersDic objectForKey:uid];
             
@@ -315,10 +295,8 @@
             [cell.btnShotof addTarget:self action:@selector(handShotOffUser:) forControlEvents:UIControlEventTouchUpInside];
             
             cell.btnMic.tag = indexPath.row;
-            [cell.btnMic addTarget:self action:@selector(handMicUser:) forControlEvents:UIControlEventTouchUpInside];
             
             cell.btnCamera.tag = indexPath.row;
-            [cell.btnCamera addTarget:self action:@selector(handCameraUser:) forControlEvents:UIControlEventTouchUpInside];
             
             [self synchronousMemberStatus:uid btncamera:cell.btnCamera btnmic:cell.btnMic];
         }
@@ -345,12 +323,12 @@
         if(answers.count>0)
         {
             NSMutableAttributedString *hintString=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@" [%@]:%@         [%@]回复:%@   %@",
-                                                                                                                ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).ownerName,
-                                                                                                                ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionContent,
-                                                                                                                answername,
-                                                                                                                answercontent,
-                                                                                                                timeLocal
-                                                                                                                ]];
+                                                                                                    ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).ownerName,
+                                                                                                    ((GSQuestion*)[_questionsDic objectForKey:_questionArray[indexPath.section]]).questionContent,
+                                                                                                    answername,
+                                                                                                    answercontent,
+                                                                                                    timeLocal
+                                                                                                    ]];
             NSRange range=[[hintString string]rangeOfString:[NSString stringWithFormat:@"[%@]回复", answername]];
             [hintString addAttribute:NSForegroundColorAttributeName value:[@"#00a2ff" representedColor] range:range];
             cell.labelContent.attributedText = hintString;
@@ -391,7 +369,7 @@
         NSObject *a = self.docArr[indexPath.row];
         
         int docid =[[a valueForKey:@"docID"] intValue];
-
+        
         [self.broadcastManager publishDocGotoPage:docid pageId:0 sync2other:YES];
     }
 }
@@ -402,7 +380,7 @@
     if (buttonIndex == 1) {
         UITextField *txt = [alertView textFieldAtIndex:0];
         //获取txt内容即可
-         [self.broadcastManager answerQuestion:_questionAnswering answer:txt.text];
+        [self.broadcastManager answerQuestion:_questionAnswering answer:txt.text];
     }
 }
 
@@ -466,12 +444,12 @@
     {
         //状态打开，关闭麦克风
         bool res = [self.broadcastManager inactivateUserMicrophone:userInfo.userID];
-//        if(res)
-//        {
-//            userInfo.isMicrophoneOpen =0;
-//            [btn setBackgroundImage:[UIImage imageNamed:@"mic1"] forState:UIControlStateNormal];
-//
-//        }
+        //        if(res)
+        //        {
+        //            userInfo.isMicrophoneOpen =0;
+        //            [btn setBackgroundImage:[UIImage imageNamed:@"mic1"] forState:UIControlStateNormal];
+        //
+        //        }
     }
     
     if(ismic==false)
@@ -479,11 +457,11 @@
         //状态关闭，打开麦克风
         bool res = [self.broadcastManager activateUserMicrophone:userInfo.userID];
         NSLog(@"sdfsd");
-//        if(res)
-//        {
-//            userInfo.isMicrophoneOpen =1;
-//            [btn setBackgroundImage:[UIImage imageNamed:@"mic0.png"] forState:UIControlStateNormal];
-//        }
+        //        if(res)
+        //        {
+        //            userInfo.isMicrophoneOpen =1;
+        //            [btn setBackgroundImage:[UIImage imageNamed:@"mic0.png"] forState:UIControlStateNormal];
+        //        }
     }
     NSLog(@"mic");
 }
@@ -566,12 +544,12 @@
 }
 
 -(void)handleMembers{
-
+    
     if(self.btnMembers.tag==1)
     {
         [self.view sendSubviewToBack:self.membersTable];
         self.btnMembers.tag = 0;
-    
+        
     }
     else{
         [self hiddleTables];
@@ -595,9 +573,9 @@
     {
         [self hiddleTables];
         [self.docTable reloadData];
-
+        
         [self.view bringSubviewToFront:_videoViewDoc];
-
+        
         //[self.view.layer addSublayer:_previewLayer];
         [self.view bringSubviewToFront:_btnSwitchDoc];
         [self.view bringSubviewToFront:_btnUploadImg];
@@ -637,7 +615,6 @@
         self.btnDoc.tag=0;
         [self.view sendSubviewToBack:_videoViewDoc];
         [self.view sendSubviewToBack:_btnUploadImg];
-        [self.view sendSubviewToBack:_btnSwitchDoc];
         [self.view sendSubviewToBack:_docTable];
     }
     if(self.btnMembers.tag==1)
@@ -712,7 +689,7 @@
         [alert show];
         return;
     }
-
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     // 设置时间格式
     formatter.dateFormat = @"yyyyMMddHHmmss";
@@ -951,19 +928,10 @@
         [self.broadcastManager inactivateSpeaker];
         btn.tag=0;
         [btn setImage:[UIImage imageNamed:@"speaker_off.png"] forState:UIControlStateNormal];
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession setActive:NO error:nil];
     }else{
-        
         [self.broadcastManager activateSpeaker];
         btn.tag=1;
         [btn setImage:[UIImage imageNamed:@"speaker_on.png"] forState:UIControlStateNormal];
-        
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker
-                                        error:nil];
-        [audioSession setActive:YES error:nil];
-
     }
 }
 
@@ -1001,7 +969,7 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskLandscapeRight;
 }
- -(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
     return UIInterfaceOrientationLandscapeRight;
 }
 
@@ -1058,28 +1026,8 @@
 
 #pragma mark -展示互动相关
 
-/**
- *  索取直播设置信息代理
- *
- *  @param manager 触发此代理的GSBroadcastManager对象
- *  @param key     键
- *  @param value   值
- *  @see  GSBroadcastManager
- */
-- (void)broadcastManager:(GSBroadcastManager*)manager querySettingsInfoKey:(NSString*)key numberValue:(int*)value{
-    NSLog(@"broadcastManager");
-    if([key isEqualToString:@"save.video.width"]){
-        *value = 352;
-    }else if([key isEqualToString:@"save.video.height"]){
-        *value = 288;
-    }
-}
-
-- (void)broadcastManager:(GSBroadcastManager *)manager didSetupCustomBitRate:(VTCompressionSessionRef)session{
-    NSLog(@"didSetupCustomBitRate");
-}
-
 - (void)broadcastManager:(GSBroadcastManager *)manager didSetStatus:(GSBroadcastStatus)status{
+    
     switch (status) {
         case GSBroadcastStatusRunning:
             NSLog(@"1");
@@ -1173,7 +1121,7 @@
 }
 //- (IBAction)receive:(UIButton *)sender {
 //    [self.broadcastManager displayVideo:self.userID];
-//    
+//
 //}
 
 // 直播初始化代理
@@ -1238,7 +1186,7 @@
 - (void)broadcastManager:(GSBroadcastManager*)manager didReceiveBroadcastJoinResult:(GSBroadcastJoinResult)joinResult selfUserID:(long long)userID rootSeverRebooted:(BOOL)rebooted;
 {
     //1
-
+    
     if(joinResult == GSBroadcastJoinResultHostExist)
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -1321,7 +1269,7 @@
         [_docArr addObject:doc];
         [self.docTable reloadData];
     }
-
+    
     [self.broadcastManager publishDocGotoPage:doc.docID pageId:0 sync2other:YES];
 }
 
@@ -1480,15 +1428,15 @@
         self.isCameraVideoDisplaying = YES;
     }
     
-//    if(userInfo.userID ==self.userID)
-//    {
-//        NSString *uid = [NSString stringWithFormat:@"%lld",userInfo.userID];
-//        if([_membersArr containsObject:uid])
-//        {
-//            [_membersDic setObject:userInfo forKey:uid];
-//        }
-//        [self synchronousMemberSelfStatus:uid];
-//    }
+    //    if(userInfo.userID ==self.userID)
+    //    {
+    //        NSString *uid = [NSString stringWithFormat:@"%lld",userInfo.userID];
+    //        if([_membersArr containsObject:uid])
+    //        {
+    //            [_membersDic setObject:userInfo forKey:uid];
+    //        }
+    //        [self synchronousMemberSelfStatus:uid];
+    //    }
 }
 
 // 某一路视频关闭播放代理
@@ -1593,8 +1541,8 @@
     if (version < 7.0) {
         y -= 64;
     }
-    int a = self.view.frame.size.height-5-105;
-    _originalVideoFrame = CGRectMake(5,a, 140, 105);//4:3
+    int a = self.view.frame.size.height-5-150;
+    _originalVideoFrame = CGRectMake(5,a, 200, 150);
     self.videoView = [[GSVideoView alloc]initWithFrame:_originalVideoFrame];
     
     
@@ -1604,7 +1552,7 @@
     
     _previewLayer.frame = _originalVideoFrame;
     
-
+    
     [self.view.layer addSublayer:_previewLayer];
     [self.view bringSubviewToFront:_toolBar];
 }
@@ -1627,24 +1575,24 @@
  */
 - (void)broadcastManager:(GSBroadcastManager*)manager didReceiveOtherUser:(GSUserInfo*)userInfo
 {
-//    bool isexist = false;
-//
-//        for(int i=0;i<_membersArr.count;i++)
-//        {
-//            LONGLONG uid = [[_membersArr[i] valueForKey:@"userID"] longLongValue];
-//            if(uid==userInfo.userID)
-//            {
-//                isexist =true;
-//                break;
-//            }
-//        }
-//    
-//    if(!isexist)
-//    {
-//        [_membersArr addObject:userInfo];
-//    }
-//    
-//    _labelCount.text =[NSString stringWithFormat:@"%lu人在线",(unsigned long)[_membersArr count]];
+    //    bool isexist = false;
+    //
+    //        for(int i=0;i<_membersArr.count;i++)
+    //        {
+    //            LONGLONG uid = [[_membersArr[i] valueForKey:@"userID"] longLongValue];
+    //            if(uid==userInfo.userID)
+    //            {
+    //                isexist =true;
+    //                break;
+    //            }
+    //        }
+    //
+    //    if(!isexist)
+    //    {
+    //        [_membersArr addObject:userInfo];
+    //    }
+    //
+    //    _labelCount.text =[NSString stringWithFormat:@"%lu人在线",(unsigned long)[_membersArr count]];
     
     NSString *uid =[NSString stringWithFormat:@"%lld",userInfo.userID];
     [self.membersDic setObject:userInfo forKey: uid];
@@ -1661,7 +1609,7 @@
             [self synchronousMemberSelfStatus:uid];
         }
     }
-
+    
 }
 
 
@@ -1686,7 +1634,7 @@
             [self.membersTable reloadData];
         });
     }
-
+    
 }
 - (void)broadcastManager:(GSBroadcastManager*)manager didUpdateUserInfo:(GSUserInfo*)userInfo updateFlag:(GSUserInfoUpdate)flag
 {
@@ -1695,7 +1643,7 @@
     if([_membersArr containsObject:uid])
     {
         [self.membersDic setObject:userInfo forKey:uid];
-
+        
         GSUserInfo *myinfo= [self.broadcastManager queryMyUserInfo];
         if(userInfo.userID==myinfo.userID)
         {

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5BB492F36E2910C00B8E8A7AE27D5C34'
+               BlueprintIdentifier = '1E723D97E97C87DE5C9018978C0DA802'
                BlueprintName = 'Pods-SeerseeJoin'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-SeerseeJoin.a'>

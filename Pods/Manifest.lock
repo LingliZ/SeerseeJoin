@@ -30,29 +30,107 @@ PODS:
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
   - KeyboardToolBar (2.0.1)
+  - KSCrash (1.10.3):
+    - KSCrash/Installations (= 1.10.3)
+  - KSCrash/Installations (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting
+  - KSCrash/Recording (1.10.3)
+  - KSCrash/Reporting (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters (= 1.10.3)
+    - KSCrash/Reporting/MessageUI (= 1.10.3)
+    - KSCrash/Reporting/Sinks (= 1.10.3)
+    - KSCrash/Reporting/Tools (= 1.10.3)
+  - KSCrash/Reporting/Filters (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Alert (= 1.10.3)
+    - KSCrash/Reporting/Filters/AppleFmt (= 1.10.3)
+    - KSCrash/Reporting/Filters/Base (= 1.10.3)
+    - KSCrash/Reporting/Filters/Basic (= 1.10.3)
+    - KSCrash/Reporting/Filters/GZip (= 1.10.3)
+    - KSCrash/Reporting/Filters/JSON (= 1.10.3)
+    - KSCrash/Reporting/Filters/Sets (= 1.10.3)
+    - KSCrash/Reporting/Filters/Stringify (= 1.10.3)
+    - KSCrash/Reporting/Filters/Tools (= 1.10.3)
+  - KSCrash/Reporting/Filters/Alert (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Base
+  - KSCrash/Reporting/Filters/AppleFmt (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Base
+  - KSCrash/Reporting/Filters/Base (1.10.3):
+    - KSCrash/Recording
+  - KSCrash/Reporting/Filters/Basic (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Base
+  - KSCrash/Reporting/Filters/GZip (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Base
+  - KSCrash/Reporting/Filters/JSON (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Base
+  - KSCrash/Reporting/Filters/Sets (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/AppleFmt
+    - KSCrash/Reporting/Filters/Base
+    - KSCrash/Reporting/Filters/Basic
+    - KSCrash/Reporting/Filters/GZip
+    - KSCrash/Reporting/Filters/JSON
+    - KSCrash/Reporting/Filters/Stringify
+  - KSCrash/Reporting/Filters/Stringify (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters/Base
+  - KSCrash/Reporting/Filters/Tools (1.10.3):
+    - KSCrash/Recording
+  - KSCrash/Reporting/MessageUI (1.10.3):
+    - KSCrash/Recording
+  - KSCrash/Reporting/Sinks (1.10.3):
+    - KSCrash/Recording
+    - KSCrash/Reporting/Filters
+    - KSCrash/Reporting/Tools
+  - KSCrash/Reporting/Tools (1.10.3):
+    - KSCrash/Recording
   - MBProgressHUD (0.9.2)
+  - MGEvents (1.1.0)
   - NSString+Color (1.1.4)
   - OAuthConsumer (1.0.3)
+  - PromiseKit/Promise (1.7.2)
+  - SGHTTPRequest/Core (1.8.2):
+    - AFNetworking (~> 3.0)
+    - MGEvents (~> 1.1)
+  - SGImageCache (2.4.0):
+    - AFNetworking
+    - MGEvents (~> 1.1)
+    - PromiseKit/Promise (~> 1.5)
+    - SGHTTPRequest/Core (~> 1.8)
   - ShareManager (0.4.0):
     - BlocksKit (~> 2.2.5)
     - MBProgressHUD (~> 0.9.1)
     - OAuthConsumer (~> 1.0.3)
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.0)
+  - AFNetworking (~> 3.1)
   - KeyboardToolBar (~> 2.0.1)
+  - KSCrash (~> 1.10.1)
   - NSString+Color (~> 1.1.4)
+  - SGImageCache (~> 2.4.0)
   - ShareManager (~> 0.4.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   KeyboardToolBar: fdf2a1f2368e4a53965da4c21f9719e77f407b26
+  KSCrash: ec0b6524c3cecf324741a0c3aa2fb36aab098f48
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MGEvents: 04c4c5b49a420a4895c5bb676ccc708311176d14
   NSString+Color: ea9e33d498d634adf56766c606c9128822094473
   OAuthConsumer: 9e99725d1d58d076ed13e6010a2d74f82e25e4cc
+  PromiseKit: 102844c7b5ccff53f693e0710365c445d8df3871
+  SGHTTPRequest: 619ea47680a7fefb9a5fd242ef27abd36fe2c72f
+  SGImageCache: b862fa71e46088f22ff4c0a558e5879c3e10da40
   ShareManager: ac7f504519ff41b61f78136a043e22ddf931599a
 
-PODFILE CHECKSUM: e7dfa53b5259bf0290ae6496b80fe433bbf7963d
+PODFILE CHECKSUM: 91ddbdd22c80bd4f918afe16cfdad3d8bb0a2a48
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

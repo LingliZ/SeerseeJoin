@@ -15,6 +15,7 @@
 #import <NSString+Color.h>
 #import "CourseEditViewController.h"
 #import "ShareManager.h"
+#import "AppConfig.h"
 @interface CourseTableHYViewController ()
 
 @property (strong, nonatomic)NSArray *nsmres;
@@ -262,7 +263,8 @@
     NSString *sDesc = @"无界互联正在直播中";
     //NSString *sUrl = @"http://wujie.woojoin.com/10007.html";
     NSString *sid = [UserDefaults seerseeliveId];
-    NSString *sUrl  = [NSString stringWithFormat:@"%@%@%@", @"http://wujie.woojoin.com/",sid,@".html"];
+    NSString *url = [AppConfig websiteurl2];
+    NSString *sUrl  = [NSString stringWithFormat:@"%@m/%@%@", url,sid,@".html"];
     
     UIImage *image=[UIImage imageNamed:@"ic_launcher.png"];
     SMImage *sImage = [[SMImage alloc] initWithImage:image];
@@ -380,7 +382,16 @@
     }
 }
 
+-(BOOL)shouldAutorotate{
+    return NO;
+}
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+-(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return UIInterfaceOrientationPortrait;
+}
 
 
 

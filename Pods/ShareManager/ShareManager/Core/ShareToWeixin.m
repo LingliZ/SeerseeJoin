@@ -89,7 +89,7 @@
     
     //选择发送到朋友圈，默认值为WXSceneSession，发送到会话
     if (sceneSession == WXSceneTypeTimeline) {
-        req.scene = WXSceneTimeline;
+        req.scene = WXSceneSession;
     }
     [self setCompletionBlock:aCompletionBlock];
     
