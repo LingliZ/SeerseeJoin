@@ -62,4 +62,9 @@
 + (NSString *)getHeadimg;
 
 + (void)setHeadimg:(NSString *)headimg;
+    
+//usertype 11-24
++ (NSString *)getUserType;
+    
++ (void)setUserType:(NSString *)usertype;
 @end

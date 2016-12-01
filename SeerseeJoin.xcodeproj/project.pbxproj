@@ -15,8 +15,8 @@
 		B51880AA1DDEA1A100679E4A /* VisitorLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B51880A91DDEA1A100679E4A /* VisitorLoginViewController.m */; };
 		B519934D1D8E85B700CE8904 /* BroadcastHYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B519934C1D8E85B700CE8904 /* BroadcastHYViewController.m */; };
 		B51C38B31D9E59B100C0A1B8 /* member.m in Sources */ = {isa = PBXBuildFile; fileRef = B51C38B21D9E59B100C0A1B8 /* member.m */; };
-		B51EBDD51DA8DF8900164141 /* testViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B51EBDD41DA8DF8900164141 /* testViewController.m */; };
 		B5246C561DE3EDD000942266 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = B5246C551DE3EDD000942266 /* Common.m */; };
+		B53269181DEBB80000ACD523 /* UITableView+EmptyData.m in Sources */ = {isa = PBXBuildFile; fileRef = B53269171DEBB80000ACD523 /* UITableView+EmptyData.m */; };
 		B5373F381DB9BADE0075AB6C /* RecordingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5373F371DB9BADE0075AB6C /* RecordingTableViewController.m */; };
 		B5373F3E1DB9C0B20075AB6C /* RecordingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5373F3D1DB9C0B20075AB6C /* RecordingTableViewCell.m */; };
 		B5373F4E1DBA098B0075AB6C /* bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B5373F3F1DBA098B0075AB6C /* bg.jpg */; };
@@ -46,7 +46,6 @@
 		B54BD8E61DB8AED8000CBE52 /* JpushTabBarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B54BD8E51DB8AED8000CBE52 /* JpushTabBarViewController.xib */; };
 		B556E9351DD45C3B00A04C8B /* GGPublicNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B556E9341DD45C3B00A04C8B /* GGPublicNavigationViewController.m */; };
 		B55A0BA41DCC5BA70000A2DA /* aboutus.png in Resources */ = {isa = PBXBuildFile; fileRef = B55A0BA31DCC5BA70000A2DA /* aboutus.png */; };
-		B56306131D936A8B0070A34F /* SingleVideoItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56306121D936A8B0070A34F /* SingleVideoItemViewController.m */; };
 		B56306161D93D3760070A34F /* CourseTableHYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56306151D93D3760070A34F /* CourseTableHYViewController.m */; };
 		B563063E1D93DC360070A34F /* ask.png in Resources */ = {isa = PBXBuildFile; fileRef = B56306171D93DC360070A34F /* ask.png */; };
 		B563063F1D93DC360070A34F /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = B56306181D93DC360070A34F /* back.png */; };
@@ -89,6 +88,7 @@
 		B56306641D93DC360070A34F /* woojoin.png in Resources */ = {isa = PBXBuildFile; fileRef = B563063D1D93DC360070A34F /* woojoin.png */; };
 		B56306671D93E1D60070A34F /* CourseTablePXViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56306661D93E1D60070A34F /* CourseTablePXViewController.m */; };
 		B579D2131DC1BAFD00B3ECE9 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B579D2121DC1BAFD00B3ECE9 /* UserNotifications.framework */; };
+		B57C38421DED1572004FDF73 /* config.png in Resources */ = {isa = PBXBuildFile; fileRef = B57C38411DED1572004FDF73 /* config.png */; };
 		B59C279D1D7D5068000E66D5 /* RtSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59C279C1D7D5068000E66D5 /* RtSDK.framework */; };
 		B59EC2231DD5B33E007DC83D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B59EC2221DD5B33E007DC83D /* MessageUI.framework */; };
 		B5C425931D8F6EBD00F09F96 /* ChoiceCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5C425921D8F6EBD00F09F96 /* ChoiceCenterViewController.m */; };
@@ -110,8 +110,6 @@
 		B5E92ED81D91433600E7D088 /* MemberCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E92ED71D91433600E7D088 /* MemberCenterViewController.m */; };
 		B5EDAF881D950493009F75D3 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EDAF871D950493009F75D3 /* AppConfig.m */; };
 		B5EE3BBF1DB7267500FFD27B /* QuestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5EE3BBE1DB7267500FFD27B /* QuestionTableViewCell.m */; };
-		B5F72E201D7FAF0E00F326DF /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F72E1F1D7FAF0E00F326DF /* ListViewController.m */; };
-		B5F72E231D7FF92A00F326DF /* CourseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F72E221D7FF92A00F326DF /* CourseTableViewController.m */; };
 		B5F7B54E1DBD9FE500936177 /* VodSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F7B54D1DBD9FE500936177 /* VodSDK.framework */; };
 		B5F7B5511DBDA09800936177 /* RecordingPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F7B5501DBDA09800936177 /* RecordingPlayViewController.m */; };
 		B5F7B5541DBDA15200936177 /* SpeedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5F7B5531DBDA15200936177 /* SpeedSettingViewController.m */; };
@@ -148,10 +146,10 @@
 		B519934C1D8E85B700CE8904 /* BroadcastHYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BroadcastHYViewController.m; sourceTree = "<group>"; };
 		B51C38B11D9E59B100C0A1B8 /* member.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = member.h; sourceTree = "<group>"; };
 		B51C38B21D9E59B100C0A1B8 /* member.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = member.m; sourceTree = "<group>"; };
-		B51EBDD31DA8DF8900164141 /* testViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testViewController.h; sourceTree = "<group>"; };
-		B51EBDD41DA8DF8900164141 /* testViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testViewController.m; sourceTree = "<group>"; };
 		B5246C541DE3EDD000942266 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		B5246C551DE3EDD000942266 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		B53269161DEBB80000ACD523 /* UITableView+EmptyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+EmptyData.h"; sourceTree = "<group>"; };
+		B53269171DEBB80000ACD523 /* UITableView+EmptyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+EmptyData.m"; sourceTree = "<group>"; };
 		B5373F361DB9BADE0075AB6C /* RecordingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingTableViewController.h; sourceTree = "<group>"; };
 		B5373F371DB9BADE0075AB6C /* RecordingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingTableViewController.m; sourceTree = "<group>"; };
 		B5373F3C1DB9C0B20075AB6C /* RecordingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingTableViewCell.h; sourceTree = "<group>"; };
@@ -185,8 +183,6 @@
 		B556E9331DD45C3B00A04C8B /* GGPublicNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGPublicNavigationViewController.h; sourceTree = "<group>"; };
 		B556E9341DD45C3B00A04C8B /* GGPublicNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGPublicNavigationViewController.m; sourceTree = "<group>"; };
 		B55A0BA31DCC5BA70000A2DA /* aboutus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = aboutus.png; path = image/aboutus.png; sourceTree = "<group>"; };
-		B56306111D936A8B0070A34F /* SingleVideoItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleVideoItemViewController.h; sourceTree = "<group>"; };
-		B56306121D936A8B0070A34F /* SingleVideoItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleVideoItemViewController.m; sourceTree = "<group>"; };
 		B56306141D93D3760070A34F /* CourseTableHYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableHYViewController.h; sourceTree = "<group>"; };
 		B56306151D93D3760070A34F /* CourseTableHYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableHYViewController.m; sourceTree = "<group>"; };
 		B56306171D93DC360070A34F /* ask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ask.png; path = image/ask.png; sourceTree = "<group>"; };
@@ -231,6 +227,7 @@
 		B56306651D93E1D60070A34F /* CourseTablePXViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTablePXViewController.h; sourceTree = "<group>"; };
 		B56306661D93E1D60070A34F /* CourseTablePXViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTablePXViewController.m; sourceTree = "<group>"; };
 		B579D2121DC1BAFD00B3ECE9 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		B57C38411DED1572004FDF73 /* config.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = config.png; path = image/config.png; sourceTree = "<group>"; };
 		B59C279C1D7D5068000E66D5 /* RtSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RtSDK.framework; sourceTree = "<group>"; };
 		B59C279E1D7D535E000E66D5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B59C27A01D7D5367000E66D5 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
@@ -264,10 +261,6 @@
 		B5EDAF871D950493009F75D3 /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
 		B5EE3BBD1DB7267500FFD27B /* QuestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionTableViewCell.h; sourceTree = "<group>"; };
 		B5EE3BBE1DB7267500FFD27B /* QuestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionTableViewCell.m; sourceTree = "<group>"; };
-		B5F72E1E1D7FAF0E00F326DF /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
-		B5F72E1F1D7FAF0E00F326DF /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
-		B5F72E211D7FF92A00F326DF /* CourseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableViewController.h; sourceTree = "<group>"; };
-		B5F72E221D7FF92A00F326DF /* CourseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableViewController.m; sourceTree = "<group>"; };
 		B5F7B54D1DBD9FE500936177 /* VodSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VodSDK.framework; sourceTree = "<group>"; };
 		B5F7B54F1DBDA09800936177 /* RecordingPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordingPlayViewController.h; sourceTree = "<group>"; };
 		B5F7B5501DBDA09800936177 /* RecordingPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordingPlayViewController.m; sourceTree = "<group>"; };
@@ -372,6 +365,7 @@
 		B50C89881D89244A005CCF4C /* image */ = {
 			isa = PBXGroup;
 			children = (
+				B57C38411DED1572004FDF73 /* config.png */,
 				B55A0BA31DCC5BA70000A2DA /* aboutus.png */,
 				B5E117D31DC1F2BD00A2529A /* WechatIMG1.jpeg */,
 				B5373F3F1DBA098B0075AB6C /* bg.jpg */,
@@ -493,8 +487,6 @@
 				B5F9DB021D7D41430071D617 /* LaunchScreen.storyboard */,
 				B5F9DB051D7D41430071D617 /* Info.plist */,
 				B5F9DAF41D7D41430071D617 /* Supporting Files */,
-				B5F72E1E1D7FAF0E00F326DF /* ListViewController.h */,
-				B5F72E1F1D7FAF0E00F326DF /* ListViewController.m */,
 				B5C425911D8F6EBD00F09F96 /* ChoiceCenterViewController.h */,
 				B5C425921D8F6EBD00F09F96 /* ChoiceCenterViewController.m */,
 				B5E222B41D7D6452003C662C /* LoginViewController.h */,
@@ -503,8 +495,6 @@
 				B5E79D591DC5C518004F9268 /* CourseEditViewController.m */,
 				B5E79D551DC5C509004F9268 /* CourseAddViewController.h */,
 				B5E79D561DC5C509004F9268 /* CourseAddViewController.m */,
-				B5F72E211D7FF92A00F326DF /* CourseTableViewController.h */,
-				B5F72E221D7FF92A00F326DF /* CourseTableViewController.m */,
 				B56306141D93D3760070A34F /* CourseTableHYViewController.h */,
 				B56306151D93D3760070A34F /* CourseTableHYViewController.m */,
 				B56306651D93E1D60070A34F /* CourseTablePXViewController.h */,
@@ -525,10 +515,6 @@
 				B51880A61DDEA17900679E4A /* BroadcastHYVisitorViewController.m */,
 				B5E92ED61D91433600E7D088 /* MemberCenterViewController.h */,
 				B5E92ED71D91433600E7D088 /* MemberCenterViewController.m */,
-				B56306111D936A8B0070A34F /* SingleVideoItemViewController.h */,
-				B56306121D936A8B0070A34F /* SingleVideoItemViewController.m */,
-				B51EBDD31DA8DF8900164141 /* testViewController.h */,
-				B51EBDD41DA8DF8900164141 /* testViewController.m */,
 				B5373F361DB9BADE0075AB6C /* RecordingTableViewController.h */,
 				B5373F371DB9BADE0075AB6C /* RecordingTableViewController.m */,
 				B5373F3C1DB9C0B20075AB6C /* RecordingTableViewCell.h */,
@@ -541,6 +527,8 @@
 				B5F7B5531DBDA15200936177 /* SpeedSettingViewController.m */,
 				B556E9331DD45C3B00A04C8B /* GGPublicNavigationViewController.h */,
 				B556E9341DD45C3B00A04C8B /* GGPublicNavigationViewController.m */,
+				B53269161DEBB80000ACD523 /* UITableView+EmptyData.h */,
+				B53269171DEBB80000ACD523 /* UITableView+EmptyData.m */,
 			);
 			path = SeerseeJoin;
 			sourceTree = "<group>";
@@ -669,6 +657,7 @@
 				B56306561D93DC360070A34F /* recent.png in Resources */,
 				B563065E1D93DC360070A34F /* statics.png in Resources */,
 				B56306531D93DC360070A34F /* play.png in Resources */,
+				B57C38421DED1572004FDF73 /* config.png in Resources */,
 				B5F9DB011D7D41430071D617 /* Assets.xcassets in Resources */,
 				B5373F571DBA098B0075AB6C /* pen_red.png in Resources */,
 				B5E117D41DC1F2BD00A2529A /* WechatIMG1.jpeg in Resources */,
@@ -743,11 +732,11 @@
 				B5C425931D8F6EBD00F09F96 /* ChoiceCenterViewController.m in Sources */,
 				B51880AA1DDEA1A100679E4A /* VisitorLoginViewController.m in Sources */,
 				B5F7B5541DBDA15200936177 /* SpeedSettingViewController.m in Sources */,
+				B53269181DEBB80000ACD523 /* UITableView+EmptyData.m in Sources */,
 				B5E222B91D7D6452003C662C /* LoginViewController.m in Sources */,
 				B5E222BA1D7D6452003C662C /* UserDefaults.m in Sources */,
 				B5373F3E1DB9C0B20075AB6C /* RecordingTableViewCell.m in Sources */,
 				B5C425961D8F8BC100F09F96 /* BroadcastPXViewController.m in Sources */,
-				B5F72E201D7FAF0E00F326DF /* ListViewController.m in Sources */,
 				B5F9DAF91D7D41430071D617 /* AppDelegate.mm in Sources */,
 				B5246C561DE3EDD000942266 /* Common.m in Sources */,
 				B56306161D93D3760070A34F /* CourseTableHYViewController.m in Sources */,
@@ -757,13 +746,10 @@
 				B51C38B31D9E59B100C0A1B8 /* member.m in Sources */,
 				B519934D1D8E85B700CE8904 /* BroadcastHYViewController.m in Sources */,
 				B50BF50A1DB5C46C00A79380 /* MemberBase.m in Sources */,
-				B51EBDD51DA8DF8900164141 /* testViewController.m in Sources */,
 				B5F7B5511DBDA09800936177 /* RecordingPlayViewController.m in Sources */,
 				B5E79D5A1DC5C519004F9268 /* CourseEditViewController.m in Sources */,
 				B5DAFAA71DAE179300409671 /* membersTableViewCell.m in Sources */,
 				B5F9DAF61D7D41430071D617 /* main.m in Sources */,
-				B56306131D936A8B0070A34F /* SingleVideoItemViewController.m in Sources */,
-				B5F72E231D7FF92A00F326DF /* CourseTableViewController.m in Sources */,
 				B5373F381DB9BADE0075AB6C /* RecordingTableViewController.m in Sources */,
 				B5E92ED81D91433600E7D088 /* MemberCenterViewController.m in Sources */,
 				B5E79D571DC5C509004F9268 /* CourseAddViewController.m in Sources */,

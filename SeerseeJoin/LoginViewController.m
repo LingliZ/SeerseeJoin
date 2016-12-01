@@ -10,11 +10,10 @@
 #import "UserDefaults.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "AFNetworking.h"
-#import "ListViewController.h"
-#import "CourseTableViewController.h"
 #import "MemberCenterViewController.h"
 #import <NSString+Color.h>
-
+#import "CourseTablePXViewController.h"
+#import "CourseTableHYViewController.h"
 @interface LoginViewController ()<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *loginName;
@@ -116,19 +115,13 @@
 {
     self.title = NSLocalizedString(@"Title", nil);
     
-    self.domain.text = [UserDefaults domain];
-    self.domain.delegate = self;
-    
-    //    self.serviceTypeTextField.text = [UserDefaults serviceType];
-    //    self.serviceTypeTextField.delegate = self;
-    
     self.loginName.text = [UserDefaults loginName];
     self.loginName.delegate = self;
     
     self.password.text = [UserDefaults loginPassword];
     self.password.delegate = self;
     
-    self.textFields = @[_domain, _loginName, _password];
+    self.textFields = @[_loginName, _password];
 }
 
 #pragma mark -
@@ -176,7 +169,7 @@
 -(void)loginIn{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSString *URL = @"http://woojoin.com/home/api/user_login/";
-    NSDictionary *param = @{@"username":self.loginName.text, @"password":[self getpwd:self.password.text], @"domain":self.domain.text};
+    NSDictionary *param = @{@"username":self.loginName.text, @"password":[self getpwd:self.password.text]};
     [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }
@@ -185,41 +178,41 @@
              NSLog(@"登陆code");
              if([code intValue] ==0){
                  //登录成功
-                 [UserDefaults setDomain:self.domain.text];
+                 [UserDefaults setDomain:@"wujie"];
                  [UserDefaults setLoginName:self.loginName.text];
                  [UserDefaults setLoginPassword:self.password.text];
                  [UserDefaults setNickname:[[responseObject objectForKey:@"user"] objectForKey:@"nickname"]];
                  [UserDefaults setUserId:[[responseObject objectForKey:@"user"] objectForKey:@"id"]];
                  [UserDefaults setHeadimg:[[responseObject objectForKey:@"user"] objectForKey:@"headimg"]];
+                 [UserDefaults setUserType:[[responseObject objectForKey:@"user"] objectForKey:@"usertype"]];
                  [UserDefaults save];
-                 //                 UIStoryboard *board = [UIStoryboard storyboardWithName:@"Seersee" bundle:[NSBundle mainBundle]];
-                 //                 ChoiceCenterController *controller = [board instantiateViewControllerWithIdentifier:@"ChoiceCenterController"];
-                 //
-                 //                 controller.domain = self.domain.text;
-                 //                 controller.loginName = self.loginName.text;
-                 //                 controller.loginPassword = self.password.text;
-                 //                 controller.nickName = [[responseObject objectForKey:@"user"] objectForKey:@"nickname"];
-                 //
-                 //                 [self.navigationController pushViewController:controller animated:YES];
                  
                  NSString *courseid=[self.parameter objectForKey:@"from"];
                  
                  UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-                 CourseTableViewController *controller = [board instantiateViewControllerWithIdentifier:courseid];
-                 controller.parameter = self.parameter;
-                 controller.domain = self.domain.text;
-                 controller.loginName = self.loginName.text;
-                 controller.loginPassword = self.password.text;
-                 controller.nickName = [[responseObject objectForKey:@"user"] objectForKey:@"nickname"];
                  
-                 [self.navigationController pushViewController:controller animated:YES];
-                 
-                 //ListViewController *valueView = [self.storyboard instantiateViewControllerWithIdentifier:@"CourseTableView"];
-                 //[self presentViewController:controller animated:YES completion:nil];
+                 if([courseid isEqualToString:@"CourseTablePXViewController"]){
+                     CourseTablePXViewController *controller = [board instantiateViewControllerWithIdentifier:courseid];
+                     controller.parameter = self.parameter;
+                     controller.domain = @"wujie";
+                     controller.loginName = self.loginName.text;
+                     controller.loginPassword = self.password.text;
+                     controller.nickName = [[responseObject objectForKey:@"user"] objectForKey:@"nickname"];
+                     
+                     [self.navigationController pushViewController:controller animated:YES];
+                 }else if([courseid isEqualToString:@"CourseTableHYViewController"]){
+                     CourseTableHYViewController *controller = [board instantiateViewControllerWithIdentifier:courseid];
+                     controller.parameter = self.parameter;
+                     controller.domain = @"wujie";
+                     controller.loginName = self.loginName.text;
+                     controller.loginPassword = self.password.text;
+                     controller.nickName = [[responseObject objectForKey:@"user"] objectForKey:@"nickname"];
+                     
+                     [self.navigationController pushViewController:controller animated:YES];
+                 }
              }else{
                  //登录失败
-                 //NSString *errorcode = [responseObject objectForKey:@"code"];
-                 UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"WrongConnectInfo", [@"用户名密码有误：" stringByAppendingString:errorcode]) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"知道了") otherButtonTitles:nil, nil];
+                 UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"登陆失败", [@"用户名密码有误：" stringByAppendingString:errorcode]) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"知道了") otherButtonTitles:nil, nil];
                  [alertView show];
                  
              }
@@ -259,10 +252,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-        CourseTableViewController *destinationViewController = (CourseTableViewController*)segue.destinationViewController;
-        destinationViewController.domain = self.domain.text;
-        destinationViewController.loginName = self.loginName.text;
-        destinationViewController.loginPassword = self.password.text;
+    NSLog(@"sdfsd");
+//        CourseTableViewController *destinationViewController = (CourseTableViewController*)segue.destinationViewController;
+//        destinationViewController.domain = self.domain.text;
+//        destinationViewController.loginName = self.loginName.text;
+//        destinationViewController.loginPassword = self.password.text;
 }
 
 

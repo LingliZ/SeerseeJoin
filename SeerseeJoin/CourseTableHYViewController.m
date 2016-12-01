@@ -111,9 +111,8 @@
 
 -(void)loadData{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *URL = @"http://www.woojoin.com/home/api/get_meeting_list/";
-    NSString *uid = [UserDefaults userId];
-    NSDictionary *param = @{@"uid":uid};
+    NSString *URL = [NSString stringWithFormat:@"%@home/api/%@",[AppConfig websiteurl],@"get_livecast_list/"];
+    NSDictionary *param = @{@"livecast_type":@"3",@"uid":[UserDefaults userId]};
     [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }
@@ -192,57 +191,104 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //上次的房间号
     NSDictionary *info = self.nsmres[indexPath.row];
     NSString *rid =[info objectForKey:@"id"];
     //NSString *title =[info objectForKey:@"title"];
     if(rid.length>0)
     {
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
-        NSDictionary *param = @{@"id":rid};
-        [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
-            
+        int usertype = [[UserDefaults getUserType] intValue];
+        if(usertype<=2){
+            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+            NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
+            NSDictionary *param = @{@"id":rid};
+            [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+            }
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                     NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
+                     NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
+                     NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
+                     
+                     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                     BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastPXViewController"];
+                     
+                     GSConnectInfo *connectInfo = [GSConnectInfo new];
+                     
+                     connectInfo.domain = @"service.seersee.com";
+                     connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
+                     connectInfo.loginName = @"admin@seersee.com";
+                     connectInfo.loginPassword = @"tgc0428seersee";
+                     connectInfo.roomNumber = roomNumber;
+                     connectInfo.nickName = self.nickName;
+                     connectInfo.watchPassword = organizerToken;
+                     connectInfo.thirdToken = self.token;
+                     connectInfo.oldVersion = YES;
+                     
+                     [UserDefaults setRoomNumber:self.roomNumber];
+                     [UserDefaults setSeerseeliveId:rid];
+                     [UserDefaults setOrganizerToken:organizerToken];
+                     [UserDefaults setPanelistToken:panelistToken];
+                     [UserDefaults save];
+                     controller.connectInfo = connectInfo;
+                     
+                     [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
+                     controller.parameter = self.parameter;
+                     
+                     [self presentViewController:controller animated: YES completion:nil];
+                 }
+             
+                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+                     NSLog(@"%@",error);  //这里打印错误信息
+                     
+                 }];
+        }else{
+            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+            NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
+            NSDictionary *param = @{@"id":rid};
+            [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+            }
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                     NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
+                     NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
+                     NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
+                     
+                     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                     BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastHYVisitorViewController"];
+                     
+                     GSConnectInfo *connectInfo = [GSConnectInfo new];
+                     
+                     connectInfo.domain = @"service.seersee.com";
+                     connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
+                     connectInfo.loginName = @"admin@seersee.com";
+                     connectInfo.loginPassword = @"tgc0428seersee";
+                     connectInfo.roomNumber = roomNumber;
+                     connectInfo.nickName = self.loginName;
+                     connectInfo.watchPassword = panelistToken;
+                     connectInfo.thirdToken = self.token;
+                     connectInfo.oldVersion = YES;
+                     
+                     [UserDefaults setRoomNumber:self.roomNumber];
+                     [UserDefaults setSeerseeliveId:rid];
+                     [UserDefaults setOrganizerToken:organizerToken];
+                     [UserDefaults setPanelistToken:panelistToken];
+                     [UserDefaults save];
+                     controller.connectInfo = connectInfo;
+                     
+                     [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
+                     controller.parameter = self.parameter;
+                     
+                     [self presentViewController:controller animated: YES completion:nil];
+                 }
+             
+                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+                     NSLog(@"%@",error);  //这里打印错误信息
+                     
+                 }];
         }
-             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                 NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
-                 NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
-                 NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
-                 
-                 UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-                 BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastPXViewController"];
-                 
-                 GSConnectInfo *connectInfo = [GSConnectInfo new];
-                 
-                 connectInfo.domain = @"service.seersee.com";
-                 connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
-                 connectInfo.loginName = @"admin@seersee.com";
-                 connectInfo.loginPassword = @"tgc0428seersee";
-                 connectInfo.roomNumber = roomNumber;
-                 connectInfo.nickName = self.loginName;
-                 connectInfo.watchPassword = organizerToken;
-                 connectInfo.thirdToken = self.token;
-                 connectInfo.oldVersion = YES;
-                 
-                 [UserDefaults setRoomNumber:self.roomNumber];
-                 [UserDefaults setSeerseeliveId:rid];
-                 [UserDefaults setOrganizerToken:organizerToken];
-                 [UserDefaults setPanelistToken:panelistToken];
-                 [UserDefaults save];
-                 controller.connectInfo = connectInfo;
-                 
-                 [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
-                 controller.parameter = self.parameter;
-                 
-                 [self presentViewController:controller animated: YES completion:nil];
-             }
-         
-             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
-                 NSLog(@"%@",error);  //这里打印错误信息
-                 
-             }];
+        
     }
 
 }

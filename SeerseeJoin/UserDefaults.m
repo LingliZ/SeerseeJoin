@@ -25,6 +25,7 @@ static NSString *kpanelistToken = @"666666";
 static NSString *kVodPassword = @"vodPassword";
 static NSString *kNumber = @"number";
 static NSString *kHeadimg = @"";
+static NSString *kUserType = @"";
 
 @implementation UserDefaults
 
@@ -191,4 +192,15 @@ static NSString *kHeadimg = @"";
 {
     [[NSUserDefaults standardUserDefaults]setObject:headimg forKey:kHeadimg];
 }
+    
+//usertype  11-24
++ (NSString *)getUserType
+    {
+        return [[NSUserDefaults standardUserDefaults]objectForKey:kUserType];
+    }
+    
++ (void)setUserType:(NSString *)usertype
+    {
+        [[NSUserDefaults standardUserDefaults]setObject:usertype forKey:kUserType];
+    }
 @end

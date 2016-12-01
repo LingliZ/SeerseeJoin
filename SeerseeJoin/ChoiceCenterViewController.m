@@ -26,6 +26,9 @@
     [super viewDidLoad];
     [self initParameter];
     [self checkUpdate];
+      UIDeviceOrientation orientaiton = [[UIDevice currentDevice] orientation];
+
+    NSLog(@"%ld",(long)orientaiton);
 }
 
 - (void)initParameter{
@@ -131,7 +134,7 @@
 }
 
 -(BOOL)shouldAutorotate{
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

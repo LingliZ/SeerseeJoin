@@ -8,10 +8,10 @@
 
 #import "MemberCenterViewController.h"
 #import "UserDefaults.h"
-#import "CourseTableViewController.h"
 #import "ChoiceCenterViewController.h"
 #import "RecordingPlayViewController.h"
 #import <NSString+Color.h>
+#import "CourseTablePXViewController.h"
 @interface MemberCenterViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *btnLoginOut;
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
@@ -81,7 +81,7 @@
 }
 
 - (IBAction)gotoClass:(UIButton *)sender {
-    CourseTableViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"CourseTablePXViewController"];
+    CourseTablePXViewController *controller = [self.storyboard instantiateViewControllerWithIdentifier:@"CourseTablePXViewController"];
     
     [self.navigationController pushViewController:controller animated:YES];
 }

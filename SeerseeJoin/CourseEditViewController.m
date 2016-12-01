@@ -327,18 +327,48 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
+//    //取得所选取的图片,原大小,可编辑等，info是选取的图片的信息字典
+//    UIImage *selectImage = [info objectForKey:UIImagePickerControllerEditedImage];
+//    //NSData *data = UIImagePNGRepresentation(selectImage);//获取图片数据
+//    //设置图片进相框
+//    [self.btnImage setBackgroundImage:selectImage forState:UIControlStateNormal];
+//    self.btnImage.tag= 1;
+//    self.imgdata=UIImagePNGRepresentation(selectImage);//获取图片数据
+//    [picker dismissViewControllerAnimated:YES completion:^{
+//        NSLog(@"模态返回") ;
+//    }];
+    
+    //11-28
     //取得所选取的图片,原大小,可编辑等，info是选取的图片的信息字典
     UIImage *selectImage = [info objectForKey:UIImagePickerControllerEditedImage];
-    //NSData *data = UIImagePNGRepresentation(selectImage);//获取图片数据
+    selectImage = [self compressImage:selectImage toTargetWidth:640];
+    
     //设置图片进相框
-    //self.choiceimage.image = selectImage;
-    //[self.btnImage setBackgroundImage:[UIImage imageWithData:data] forState:UIControlStateNormal];
-    [self.btnImage setBackgroundImage:selectImage forState:UIControlStateNormal];
+
+    self.imgdata=UIImageJPEGRepresentation(selectImage, 1.0);//获取图片数据
+    
+    [self.btnImage setBackgroundImage:[UIImage imageWithData:self.imgdata] forState:UIControlStateNormal];
     self.btnImage.tag= 1;
-    self.imgdata=UIImagePNGRepresentation(selectImage);//获取图片数据
     [picker dismissViewControllerAnimated:YES completion:^{
         NSLog(@"模态返回") ;
     }];
+}
+
+- (UIImage *)compressImage:(UIImage *)sourceImage toTargetWidth:(CGFloat)targetWidth {
+    CGSize imageSize = sourceImage.size;
+    
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    
+    CGFloat targetHeight = (targetWidth / width) * height;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(targetWidth, targetHeight));
+    [sourceImage drawInRect:CGRectMake(0, 0, targetWidth, targetHeight)];
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{

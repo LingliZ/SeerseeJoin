@@ -17,6 +17,7 @@
 #import "MemberBase.h"
 #import <NSString+Color.h>
 #import "KeyboardToolBar.h"
+#import "UITableView+EmptyData.h"
 
 @interface BroadcastHYVisitorViewController ()<GSBroadcastDelegate, GSBroadcastInvestigationDelegate, GSBroadcastVideoDelegate, GSBroadcastDesktopShareDelegate,GSBroadcastDocumentDelegate,UIActionSheetDelegate,UITableViewDataSource,UITableViewDelegate,GSBroadcastQaDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
@@ -52,17 +53,19 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *btnPlay;
 @property (weak, nonatomic) IBOutlet UIButton *btnRecording;
-@property (weak, nonatomic) IBOutlet UIButton *btnClose;
+@property (weak, nonatomic) IBOutlet UIButton *btnMembers;
 @property (weak, nonatomic) IBOutlet UIButton *btnDoc;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnClose;
 @property (weak, nonatomic) IBOutlet UIButton *btnCamera;
 @property (weak, nonatomic) IBOutlet UIButton *btnMicrophone;
 @property (weak, nonatomic) IBOutlet UIButton *btnShare;
 @property (weak, nonatomic) IBOutlet UIButton *btnSetCameraFrontOrBehind;
 @property (weak, nonatomic) IBOutlet UIButton *btnUploadImg;
 @property (weak, nonatomic) IBOutlet UIButton *btnSwitchDoc;
-@property (weak, nonatomic) IBOutlet UIButton *btnMembers;
 @property (weak, nonatomic) IBOutlet UIButton *btnQuestion;
 @property (weak, nonatomic) IBOutlet UIButton *btnVoice;
+@property (weak, nonatomic) IBOutlet UIButton *btnConfig;
 
 @property (strong,nonatomic) NSMutableArray *membersArr;
 @property (strong,nonatomic) NSMutableDictionary *membersDic;
@@ -104,6 +107,10 @@
     self.btnSwitchDoc.layer.borderColor=[UIColor whiteColor].CGColor;
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"castname"]);
     self.labelTitle.text =[self.parameter objectForKey:@"castname"];
+    
+    
+    
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -137,6 +144,7 @@
     [self.btnUploadImg addTarget:self action:@selector(handleUploadImg) forControlEvents:UIControlEventTouchUpInside];
     [self.btnSwitchDoc addTarget:self action:@selector(handleSwitchDoc) forControlEvents:UIControlEventTouchUpInside];
     [self.btnDoc addTarget:self action:@selector(handleDoc) forControlEvents:UIControlEventTouchUpInside];
+    [self.btnConfig addTarget:self action:@selector(handleConfig) forControlEvents:UIControlEventTouchUpInside];
     [self.btnMembers addTarget:self action:@selector(handleMembers) forControlEvents:UIControlEventTouchUpInside];
     [self.btnQuestion addTarget:self action:@selector(handQuestion) forControlEvents:UIControlEventTouchUpInside];
     [self.btnQuestionSend addTarget:self action:@selector(sendQuestion) forControlEvents:UIControlEventTouchUpInside];
@@ -199,8 +207,10 @@
     
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleVideoViewTap:)];
     [self.videoViewOnline addGestureRecognizer:tapGes];
-    
     [self.view addSubview:self.videoViewOnline];
+    
+    
+    
 }
 
 -(void) setupQuestion
@@ -222,7 +232,8 @@
     }
     if([tableView isEqual:self.questionTable])
     {
-        //return 1;
+        NSUInteger c = _questionArray.count;
+        [tableView tableViewDisplayWitMsg:@"暂无聊天内容" ifNecessaryForRowCount:c];
         return _questionArray.count;
     }
     return 1;
@@ -233,6 +244,7 @@
     
     if([tableView isEqual:self.membersTable])
     {
+        
         return self.membersArr.count;
     }
     if([tableView isEqual:self.questionTable])
@@ -246,6 +258,8 @@
     }
     if([tableView isEqual:self.docTable])
     {
+        NSUInteger c = [_docArr count];
+        [tableView tableViewDisplayWitMsg:@"暂无文档" ifNecessaryForRowCount:[_docArr count]];
         return self.docArr.count;
     }
     return 1;
@@ -282,6 +296,22 @@
         
         if(self.membersArr!=nil&&self.membersArr!=NULL)
         {
+            //            NSObject *a = self.membersArr[indexPath.row];
+            //
+            //            cell.mName.text =[a valueForKey:@"userName"];
+            //
+            //            cell.btnMainVideo.tag = indexPath.row;
+            //            [cell.btnMainVideo addTarget:self action:@selector(handMainVideoUser:) forControlEvents:UIControlEventTouchUpInside];
+            //
+            //            cell.btnShotof.tag =indexPath.row;
+            //            [cell.btnShotof setBackgroundColor:[UIColor colorWithWhite:0.8 alpha:0.6]];//par1(0~1之间，从黑到白,alpha0~1  透明到不透明)
+            //            [cell.btnShotof addTarget:self action:@selector(handShotOffUser:) forControlEvents:UIControlEventTouchUpInside];
+            //
+            //            cell.btnMic.tag = indexPath.row;
+            //            [cell.btnMic addTarget:self action:@selector(handMicUser:) forControlEvents:UIControlEventTouchUpInside];
+            //
+            //            cell.btnCamera.tag = indexPath.row;
+            //            [cell.btnCamera addTarget:self action:@selector(handCameraUser:) forControlEvents:UIControlEventTouchUpInside];
             NSString *uid = self.membersArr[indexPath.row];
             GSUserInfo *gsUserinfo = [_membersDic objectForKey:uid];
             
@@ -295,8 +325,10 @@
             [cell.btnShotof addTarget:self action:@selector(handShotOffUser:) forControlEvents:UIControlEventTouchUpInside];
             
             cell.btnMic.tag = indexPath.row;
+            [cell.btnMic addTarget:self action:@selector(handMicUser:) forControlEvents:UIControlEventTouchUpInside];
             
             cell.btnCamera.tag = indexPath.row;
+            [cell.btnCamera addTarget:self action:@selector(handCameraUser:) forControlEvents:UIControlEventTouchUpInside];
             
             [self synchronousMemberStatus:uid btncamera:cell.btnCamera btnmic:cell.btnMic];
         }
@@ -443,25 +475,14 @@
     if(ismic==true)
     {
         //状态打开，关闭麦克风
-        bool res = [self.broadcastManager inactivateUserMicrophone:userInfo.userID];
-        //        if(res)
-        //        {
-        //            userInfo.isMicrophoneOpen =0;
-        //            [btn setBackgroundImage:[UIImage imageNamed:@"mic1"] forState:UIControlStateNormal];
-        //
-        //        }
+        bool a= [self.broadcastManager inactivateUserMicrophone:userInfo.userID];
     }
     
     if(ismic==false)
     {
         //状态关闭，打开麦克风
-        bool res = [self.broadcastManager activateUserMicrophone:userInfo.userID];
+        bool b= [self.broadcastManager activateUserMicrophone:userInfo.userID];
         NSLog(@"sdfsd");
-        //        if(res)
-        //        {
-        //            userInfo.isMicrophoneOpen =1;
-        //            [btn setBackgroundImage:[UIImage imageNamed:@"mic0.png"] forState:UIControlStateNormal];
-        //        }
     }
     NSLog(@"mic");
 }
@@ -510,15 +531,15 @@
         [self.btnCamera setBackgroundImage:[UIImage imageNamed:@"camera0.png"] forState:UIControlStateNormal];
     }
     
-    if(g.isMicrophoneOpen==true)
-    {
-        self.btnMicrophone.tag = 1;
-        [self.btnMicrophone setBackgroundImage:[UIImage imageNamed:@"mic1"] forState:UIControlStateNormal];
-    }
-    else{
-        self.btnMicrophone.tag = 0;
-        [self.btnMicrophone setBackgroundImage:[UIImage imageNamed:@"mic0"] forState:UIControlStateNormal];
-    }
+    //    if(g.isMicrophoneOpen==true)
+    //    {
+    //        self.btnMicrophone.tag = 1;
+    //        [self.btnMicrophone setBackgroundImage:[UIImage imageNamed:@"mic1"] forState:UIControlStateNormal];
+    //    }
+    //    else{
+    //        self.btnMicrophone.tag = 0;
+    //        [self.btnMicrophone setBackgroundImage:[UIImage imageNamed:@"mic0"] forState:UIControlStateNormal];
+    //    }
 }
 
 -(void)synchronousMemberStatus:(NSString*)uid btncamera:(UIButton*)btncamera btnmic:(UIButton*)btnmic
@@ -576,16 +597,27 @@
         
         [self.view bringSubviewToFront:_videoViewDoc];
         
-        //[self.view.layer addSublayer:_previewLayer];
+        
         [self.view bringSubviewToFront:_btnSwitchDoc];
         [self.view bringSubviewToFront:_btnUploadImg];
         [self.view bringSubviewToFront:_docTable];
         [self.view bringSubviewToFront:_toolBar];
-        
         [self.view.layer addSublayer:_previewLayer];
         self.btnDoc.tag=1;
     }
 }
+
+-(void)handleConfig{
+    if(statusTapScreen)
+    {
+        [self btnsHide];
+        statusTapScreen=false;
+    }else{
+        [self btnsShow];
+        statusTapScreen=true;
+    }
+}
+
 -(void)handQuestion{
     if(self.btnQuestion.tag==1)
     {
@@ -615,14 +647,16 @@
         self.btnDoc.tag=0;
         [self.view sendSubviewToBack:_videoViewDoc];
         [self.view sendSubviewToBack:_btnUploadImg];
+        [self.view sendSubviewToBack:_btnSwitchDoc];
         [self.view sendSubviewToBack:_docTable];
     }
     if(self.btnMembers.tag==1)
     {
         [self.view sendSubviewToBack:self.membersTable];
         self.btnMembers.tag = 0;
-        
     }
+    [self btnsHide];
+    statusTapScreen=false;
 }
 
 -(void)sendQuestion{
@@ -928,10 +962,19 @@
         [self.broadcastManager inactivateSpeaker];
         btn.tag=0;
         [btn setImage:[UIImage imageNamed:@"speaker_off.png"] forState:UIControlStateNormal];
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession setActive:NO error:nil];
     }else{
+        
         [self.broadcastManager activateSpeaker];
         btn.tag=1;
         [btn setImage:[UIImage imageNamed:@"speaker_on.png"] forState:UIControlStateNormal];
+        
+        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+        [audioSession overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker
+                                        error:nil];
+        [audioSession setActive:YES error:nil];
+        
     }
 }
 
@@ -985,15 +1028,16 @@
 //手势识别
 - (void)handleVideoViewTap:(UITapGestureRecognizer*)recognizer
 {
-    
-    if(statusTapScreen)
-    {
-        [self btnsHide];
-        statusTapScreen=false;
-    }else{
-        [self btnsShow];
-        statusTapScreen=true;
-    }
+    //    if(statusTapScreen)
+    //    {
+    //        [self btnsHide];
+    //        statusTapScreen=false;
+    //    }else{
+    //        [self btnsShow];
+    //        statusTapScreen=true;
+    //    }
+    [self btnsHide];
+    statusTapScreen=false;
 }
 
 - (void)handleDocViewTap:(UITapGestureRecognizer*)recognizer
@@ -1008,13 +1052,13 @@
     if(recognizer.direction ==UISwipeGestureRecognizerDirectionLeft)
     {
         unsigned int p =_globalPageID-1;
-        [self.broadcastManager publishDocGotoPage:_globaldocument.docID pageId:p sync2other:YES];
+        [self.broadcastManager publishDocGotoPage:self.globaldocument.docID pageId:p sync2other:YES];
         NSLog(@"左滑动");
     }
     if(recognizer.direction ==UISwipeGestureRecognizerDirectionRight)
     {
         unsigned int p =_globalPageID+1;
-        [self.broadcastManager publishDocGotoPage:_globaldocument.docID pageId:p sync2other:YES];
+        [self.broadcastManager publishDocGotoPage:self.globaldocument.docID pageId:p sync2other:YES];
         NSLog(@"右滑动");
     }
 }
@@ -1026,8 +1070,28 @@
 
 #pragma mark -展示互动相关
 
+/**
+ *  索取直播设置信息代理
+ *
+ *  @param manager 触发此代理的GSBroadcastManager对象
+ *  @param key     键
+ *  @param value   值
+ *  @see  GSBroadcastManager
+ */
+- (void)broadcastManager:(GSBroadcastManager*)manager querySettingsInfoKey:(NSString*)key numberValue:(int*)value{
+    NSLog(@"broadcastManager");
+    if([key isEqualToString:@"save.video.width"]){
+        *value = 352;
+    }else if([key isEqualToString:@"save.video.height"]){
+        *value = 288;
+    }
+}
+
+- (void)broadcastManager:(GSBroadcastManager *)manager didSetupCustomBitRate:(VTCompressionSessionRef)session{
+    NSLog(@"didSetupCustomBitRate");
+}
+
 - (void)broadcastManager:(GSBroadcastManager *)manager didSetStatus:(GSBroadcastStatus)status{
-    
     switch (status) {
         case GSBroadcastStatusRunning:
             NSLog(@"1");
@@ -1104,8 +1168,21 @@
     if (![_broadcastManager connectBroadcastWithConnectInfo:self.connectInfo]) {
         
         [self.progressHUD show:NO];
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"WrongConnectInfo", @"参数不正确") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"知道了") otherButtonTitles:nil, nil];
-        [alertView show];
+        //        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:NSLocalizedString(@"WrongConnectInfo", @"参数不正确") delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"知道了") otherButtonTitles:nil, nil];
+        //        [alertView show];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"发生错误，请重试"
+                                                                       message:@""
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  [self dismissViewControllerAnimated:YES completion:^{
+                                                                      //NSLog(@"dismissViewControllerAnimated成功");
+                                                                  }];
+                                                              }];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     else{
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -1170,8 +1247,22 @@
         case GSBroadcastConnectResultWebcastIDNotFound:
         {
             [self.progressHUD hide:YES];
-            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:  NSLocalizedString(@"BroadcastConnectionError",  @"直播连接失败提示") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",  @"确认") otherButtonTitles:nil, nil];
-            [alertView show];
+            //            UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:  NSLocalizedString(@"BroadcastConnectionError",  @"直播连接失败提示") delegate:nil cancelButtonTitle:NSLocalizedString(@"OK",  @"确认") otherButtonTitles:nil, nil];
+            //            [alertView show];
+            
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"发生错误，请重试"
+                                                                           message:@""
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      [self dismissViewControllerAnimated:YES completion:^{
+                                                                          //NSLog(@"dismissViewControllerAnimated成功");
+                                                                      }];
+                                                                  }];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
         }
             break;
         default:
@@ -1269,7 +1360,7 @@
         [_docArr addObject:doc];
         [self.docTable reloadData];
     }
-    
+    self.globaldocument = doc;
     [self.broadcastManager publishDocGotoPage:doc.docID pageId:0 sync2other:YES];
 }
 
@@ -1541,8 +1632,8 @@
     if (version < 7.0) {
         y -= 64;
     }
-    int a = self.view.frame.size.height-5-150;
-    _originalVideoFrame = CGRectMake(5,a, 200, 150);
+    int a = self.view.frame.size.height-5-105;
+    _originalVideoFrame = CGRectMake(5,a, 140, 105);//4:3
     self.videoView = [[GSVideoView alloc]initWithFrame:_originalVideoFrame];
     
     
@@ -1645,22 +1736,27 @@
         [self.membersDic setObject:userInfo forKey:uid];
         
         GSUserInfo *myinfo= [self.broadcastManager queryMyUserInfo];
-        if(userInfo.userID==myinfo.userID)
+        
+        if(myinfo)
         {
-            //通知主线程刷新
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //回调或者说是通知主线程刷新，
-                [self synchronousMemberSelfStatus:uid];
-                [self.membersTable reloadData];
-            });
+            if(userInfo.userID==myinfo.userID)
+            {
+                //通知主线程刷新
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //回调或者说是通知主线程刷新，
+                    [self synchronousMemberSelfStatus:uid];
+                    [self.membersTable reloadData];
+                });
+            }
+            else{
+                //通知主线程刷新
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //回调或者说是通知主线程刷新，
+                    [self.membersTable reloadData];
+                });
+            }
         }
-        else{
-            //通知主线程刷新
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //回调或者说是通知主线程刷新，
-                [self.membersTable reloadData];
-            });
-        }
+        
     }
 }
 

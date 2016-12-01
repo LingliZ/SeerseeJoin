@@ -16,33 +16,26 @@
 #import "ShareManager.h"
 #import <AFNetworking.h>
 #import <SGImageCache.h>
+#import "AppConfig.h"
 @interface CourseTablePXViewController ()
-
-@property (strong, nonatomic)NSArray *nsmres;
-@property (strong, nonatomic) IBOutlet UITableView *pxtable;
-
+    @property (strong, nonatomic)NSArray *nsmres;
+    @property (strong, nonatomic) IBOutlet UITableView *pxtable;
 @end
 
 @implementation CourseTablePXViewController
-
+    
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initnav];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 - (void)viewWillAppear:(BOOL)animated {
-    //[self initnav];
     NSLog(@"viewDidAppear():视图2,收到的参数:from=%@",[self.parameter objectForKey:@"from"]);
     [super viewWillAppear:animated];
     
     //self.title = @"上课2";
     [self inittoolbar];
     [self loadData];
-
+    
 }
 - (void)viewWillDisappear:(BOOL)animated {
     
@@ -50,9 +43,14 @@
     [super viewWillDisappear:animated];
     [self.navigationController  setToolbarHidden:YES animated:YES];
 }
-
+    
 -(void)inittoolbar{
-    [self.navigationController  setToolbarHidden:NO animated:YES];
+    int usertype = [[UserDefaults getUserType]intValue];
+    if(usertype<=2){
+        [self.navigationController  setToolbarHidden:NO animated:YES];
+    }
+    
+
     UIBarButtonItem *flexiableItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
     UIBarButtonItem *title = [[UIBarButtonItem alloc]initWithTitle:@"添加课程" style:UIBarButtonItemStylePlain target:self action:@selector(addCourse)];
@@ -64,13 +62,13 @@
     
     
 }
-
+    
 -(void)addCourse{
     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     UIViewController *controller = [board instantiateViewControllerWithIdentifier:@"CourseAddViewController"];
     [self.navigationController pushViewController:controller animated:YES];
 }
-
+    
 -(void)initnav{
     UIButton *rightButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
     [rightButton setImage:[UIImage imageNamed:@"profile.png"]forState:UIControlStateNormal];
@@ -88,7 +86,7 @@
     
     //标题
     [self.navigationController.navigationBar setTitleTextAttributes:
-  @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+     @{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     if([[self.parameter objectForKey:@"from"] isEqualToString:@"CourseTableHYViewController"])
     {
         self.title = @"会议";
@@ -108,12 +106,11 @@
     [self.navigationController popViewControllerAnimated:true];
 }
 #pragma mark - Table view data source
-
+    
 -(void)loadData{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *URL = @"http://www.woojoin.com/home/api/get_course_list/";
-    NSString *uid = [UserDefaults userId];
-    NSDictionary *param = @{@"uid":uid};
+    NSString *URL = [NSString stringWithFormat:@"%@home/api/%@",[AppConfig websiteurl],@"get_livecast_list/"];
+    NSDictionary *param = @{@"livecast_type":@"2",@"uid":[UserDefaults userId]};
     [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
         
     }
@@ -127,20 +124,19 @@
              
          }];
 }
-
+    
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //#warning Incomplete implementation, return the number of sections
     return 1;
 }
-
+    
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //#warning Incomplete implementation, return the number of rows
     return self.nsmres.count;
 }
-
-
+    
+    
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyIdentifier"];
     CourseCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CourseCell" forIndexPath:indexPath];
     if (cell == nil) {
         cell = [[CourseCellTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CourseCell"];
@@ -155,12 +151,12 @@
         NSString *url =[info objectForKey:@"cover"];
         
         //异步方案一
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                cell.imagePhoto.image=image;
-//            });
-//        });
+        //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+        //            dispatch_async(dispatch_get_main_queue(), ^{
+        //                cell.imagePhoto.image=image;
+        //            });
+        //        });
         //异步方案二
         [SGImageCache getImageForURL:url].then(^(UIImage *image) {
             if(image)
@@ -175,95 +171,139 @@
         cell.btnShare.tag = indexPath.row;
         [cell.btnShare addTarget:self action:@selector(handShare:) forControlEvents:UIControlEventTouchUpInside];
         
-        cell.btnAssistant.tag = indexPath.row;
-        [cell.btnAssistant addTarget:self action:@selector(handAssistant:) forControlEvents:UIControlEventTouchUpInside];
-        
-        cell.btnTeacher.tag = indexPath.row;
-        [cell.btnTeacher addTarget:self action:@selector(handTeacher:) forControlEvents:UIControlEventTouchUpInside];
+        //int usertype = ;
+        if([[UserDefaults getUserType]intValue]<=2){
+            [cell.btnEdit setHidden:NO];
+        }
         
         int status =[[info objectForKey:@"status"] intValue];
         switch (status) {
             case -1:
-                cell.labelStatus.text = @"已删除";
-                cell.labelStatus.backgroundColor = [UIColor redColor];
-                break;
+            cell.labelStatus.text = @"已删除";
+            cell.labelStatus.backgroundColor = [UIColor redColor];
+            break;
             case 0:
-                cell.labelStatus.text = @"未开始";
-                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-                break;
+            cell.labelStatus.text = @"未开始";
+            cell.labelStatus.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+            break;
             case 1:
-                cell.labelStatus.text = @"直播中";
-                cell.labelStatus.backgroundColor = [UIColor redColor];
-                break;
+            cell.labelStatus.text = @"直播中";
+            cell.labelStatus.backgroundColor = [UIColor redColor];
+            break;
             case 2:
-                cell.labelStatus.text = @"暂停";
-                cell.labelStatus.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-                break;
+            cell.labelStatus.text = @"暂停";
+            cell.labelStatus.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+            break;
             case 3:
-                cell.labelStatus.text = @"已结束";
-                cell.labelStatus.backgroundColor = [UIColor whiteColor];
-                break;
+            cell.labelStatus.text = @"已结束";
+            cell.labelStatus.backgroundColor = [UIColor whiteColor];
+            break;
             default:
-                break;
+            break;
         }
     }
     return cell;
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //上次的房间号
     NSDictionary *info = self.nsmres[indexPath.row];
     NSString *rid =[info objectForKey:@"id"];
-    //NSString *title =[info objectForKey:@"title"];
     if(rid.length>0)
     {
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
-        NSDictionary *param = @{@"id":rid};
-        [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
-            
+        int usertype = [[UserDefaults getUserType] intValue];
+        if(usertype <= 2){
+            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+            NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
+            NSDictionary *param = @{@"id":rid};
+            [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+            }
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                     NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
+                     NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
+                     NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
+                     
+                     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                     BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastPXViewController"];
+                     
+                     GSConnectInfo *connectInfo = [GSConnectInfo new];
+                     
+                     connectInfo.domain = @"service.seersee.com";
+                     connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
+                     connectInfo.loginName = @"admin@seersee.com";
+                     connectInfo.loginPassword = @"tgc0428seersee";
+                     connectInfo.roomNumber = roomNumber;
+                     connectInfo.nickName = self.nickName;
+                     connectInfo.watchPassword = organizerToken;
+                     connectInfo.thirdToken = self.token;
+                     connectInfo.oldVersion = YES;
+                     
+                     [UserDefaults setRoomNumber:self.roomNumber];
+                     [UserDefaults setSeerseeliveId:rid];
+                     [UserDefaults setOrganizerToken:organizerToken];
+                     [UserDefaults setPanelistToken:panelistToken];
+                     [UserDefaults save];
+                     controller.connectInfo = connectInfo;
+                     
+                     [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
+                     controller.parameter = self.parameter;
+                     
+                     [self presentViewController:controller animated: YES completion:nil];
+                 }
+             
+                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+                     NSLog(@"%@",error);  //这里打印错误信息
+                     
+                 }];
+        }else{
+            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+            NSString *URL = @"http://woojoin.com/home/api/get_livecast_config/";
+            NSDictionary *param = @{@"id":rid};
+            [manager GET:URL parameters:param progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+            }
+                 success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                     NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
+                     NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
+                     NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
+                     
+                     UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+                     BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastHYVisitorViewController"];
+                     
+                     GSConnectInfo *connectInfo = [GSConnectInfo new];
+                     
+                     connectInfo.domain = @"service.seersee.com";
+                     connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
+                     connectInfo.loginName = @"admin@seersee.com";
+                     connectInfo.loginPassword = @"tgc0428seersee";
+                     connectInfo.roomNumber = roomNumber;
+                     connectInfo.nickName = self.nickName;
+                     connectInfo.watchPassword = panelistToken;
+                     connectInfo.thirdToken = self.token;
+                     connectInfo.oldVersion = YES;
+                     
+                     [UserDefaults setRoomNumber:self.roomNumber];
+                     [UserDefaults setSeerseeliveId:rid];
+                     [UserDefaults setOrganizerToken:organizerToken];
+                     [UserDefaults setPanelistToken:panelistToken];
+                     [UserDefaults save];
+                     controller.connectInfo = connectInfo;
+                     
+                     [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
+                     controller.parameter = self.parameter;
+                     
+                     [self presentViewController:controller animated: YES completion:nil];
+                 }
+             
+                 failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
+                     NSLog(@"%@",error);  //这里打印错误信息
+                     
+                 }];
         }
-             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                 NSString *organizerToken = [responseObject objectForKey:@"organizer_token"];
-                 NSString *panelistToken = [responseObject objectForKey:@"panelist_token"];
-                 NSString *roomNumber = [responseObject objectForKey:@"webcast_number"];
-                 
-                 UIStoryboard *board = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-                 BaseItemViewController *controller = [board instantiateViewControllerWithIdentifier:@"BroadcastPXViewController"];
-                 
-                 GSConnectInfo *connectInfo = [GSConnectInfo new];
-                 
-                 connectInfo.domain = @"service.seersee.com";
-                 connectInfo.serviceType = GSBroadcastServiceTypeWebcast;
-                 connectInfo.loginName = @"admin@seersee.com";
-                 connectInfo.loginPassword = @"tgc0428seersee";
-                 connectInfo.roomNumber = roomNumber;
-                 connectInfo.nickName = self.loginName;
-                 connectInfo.watchPassword = organizerToken;
-                 connectInfo.thirdToken = self.token;
-                 connectInfo.oldVersion = YES;
-                 
-                 [UserDefaults setRoomNumber:self.roomNumber];
-                 [UserDefaults setSeerseeliveId:rid];
-                 [UserDefaults setOrganizerToken:organizerToken];
-                 [UserDefaults setPanelistToken:panelistToken];
-                 [UserDefaults save];
-                 controller.connectInfo = connectInfo;
-                 
-                 [self.parameter setObject:[responseObject objectForKey:@"title"] forKey:@"castname"];
-                 controller.parameter = self.parameter;
-                 
-                 [self presentViewController:controller animated: YES completion:nil];
-                 //[self.navigationController pushViewController:controller animated:YES];
-             }
-         
-             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull   error) {
-                 NSLog(@"%@",error);  //这里打印错误信息
-                 
-             }];
-    }}
-
+    }
+}
+    
 -(void)handEdit:(UIButton*)btn{
     //NSLog(@"%@",btn.tag);
     NSDictionary *info = self.nsmres[btn.tag];
@@ -274,7 +314,7 @@
     controller.cid = rid;
     [self.navigationController pushViewController:controller animated:YES];
 }
-
+    
 -(void)handShare:(UIButton*)btn{
     NSString *sTitle = @"无界互联"; //Only support QQ and Weixin
     NSString *sDesc = @"无界互联正在直播中";
@@ -287,9 +327,8 @@
     [[ShareManager sharedManager] setContentWithTitle:sTitle description:sDesc image:sImage url:sUrl];
     [[ShareManager sharedManager] showShareWindow];
 }
-
--(void)handAssistant:(UIButton*)btn
-{
+    
+-(void)handAssistant:(UIButton*)btn{
     //上次的房间号
     //NSString *rid = @"10002";
     //NSString *rid =@"10074";
@@ -343,9 +382,8 @@
              }];
     }
 }
-
--(void)handTeacher:(UIButton*)btn
-{
+    
+-(void)handTeacher:(UIButton*)btn{
     //上次的房间号
     NSDictionary *info = self.nsmres[btn.tag];
     NSString *rid =[info objectForKey:@"id"];
@@ -401,69 +439,57 @@
 -(BOOL)shouldAutorotate{
     return NO;
 }
-
+    
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 -(UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
     return UIInterfaceOrientationPortrait;
 }
-
-//-(NSUInteger)supportedInterfaceOrientations
-//{
-//    return UIInterfaceOrientationPortrait;
-//}
-//- (BOOL)shouldAutorotate
-//{
-//    return NO;
-//}
-
-
-
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-@end
+    
+    
+    /*
+     // Override to support conditional editing of the table view.
+     - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+     // Return NO if you do not want the specified item to be editable.
+     return YES;
+     }
+     */
+    
+    /*
+     // Override to support editing the table view.
+     - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+     if (editingStyle == UITableViewCellEditingStyleDelete) {
+     // Delete the row from the data source
+     [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
+    /*
+     // Override to support rearranging the table view.
+     - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+     }
+     */
+    
+    /*
+     // Override to support conditional rearranging of the table view.
+     - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+     // Return NO if you do not want the item to be re-orderable.
+     return YES;
+     }
+     */
+    
+    /*
+     #pragma mark - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+     // Get the new view controller using [segue destinationViewController].
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+    @end
